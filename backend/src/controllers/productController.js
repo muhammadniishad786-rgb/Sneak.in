@@ -41,6 +41,8 @@ export const getProducts = async (req, res) => {
     // Get the search value from the URL query
     // Example: /api/product?search=nike → "nike"
     const search = req.query.search;
+    const category = req.query.category
+    const sort = req.query.sort
 
     // Create an empty object to build the MongoDB query
     const query = {};
@@ -58,8 +60,30 @@ export const getProducts = async (req, res) => {
       };
     }
 
-    // Send the query to MongoDB and get matching products
-    const products = await Product.find(query);
+    if(category){
+      query.category = category
+    }
+
+    // Filter by category
+    if (category) {
+      query.category = category;
+    }
+
+    // Object for sorting
+    const sortOption = {};
+
+    // Price: low → high
+    if (sort === "price_asc") {
+      sortOption.price = 1;
+    }
+
+    // Price: high → low
+    if (sort === "price_desc") {
+      sortOption.price = -1;
+    }
+
+    // Get products using search/filter query and sorting option
+    const products = await Product.find(query).sort(sortOption);
 
     res.status(200).json({
       message: "Products fetched successfully",
