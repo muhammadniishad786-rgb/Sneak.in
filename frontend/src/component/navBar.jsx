@@ -9,7 +9,7 @@ function Navbar() {
 
         {/* Logo */}
         <h1 className="text-2xl font-bold text-blue-600">
-          MyApp
+          Sneak.in
         </h1>
 
         {/* Login & Register */}
