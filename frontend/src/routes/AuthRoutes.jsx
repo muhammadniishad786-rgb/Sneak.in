@@ -7,15 +7,18 @@ import Home from '../pages/Home'
 import Profile from '../pages/Profile'
 import ProtectedRoutes from './ProtectedRoutes'
 import Admin from "../pages/Admin"
+import Footer from '../component/Footer'
 
 function AuthRoutes() {
   return (
     <BrowserRouter>
-    <Navbar />
     <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/footer' element={<Footer />} />        
+        <Route path='/navbar' element={<Navbar />} />        
+
 
         {/* protected Route */}
         <Route element={<ProtectedRoutes />}>
