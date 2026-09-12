@@ -9,6 +9,7 @@ import Admin from "../pages/Admin";
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
 import Products from "../pages/Products";
+import CreateProduct from "../pages/admin/CreateProducts";
 
 function AuthRoutes() {
   return (
@@ -24,7 +25,7 @@ function AuthRoutes() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<CreateProduct />} />
             <Route path="/products" element={<Products />} />
           </Route>
         </Route>

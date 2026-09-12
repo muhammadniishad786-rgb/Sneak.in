@@ -47,48 +47,52 @@ export const register = async (req, res) => {
 // login controller
 export const login = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
-    // 1. user exist
+    // 1. Find user
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(500).json({
-        message: "invalid email or password",
+      return res.status(400).json({
+        message: "Invalid email or password",
       });
     }
 
-    // 2. compare password
-    const comparePassword = await bcrypt.compare(password, user.password);
+    // 2. Compare password
+    const comparePassword = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!comparePassword) {
-      res.status(400).json({
-        message: "invalid email or passwod",
+      return res.status(400).json({
+        message: "Invalid email or password",
       });
     }
 
-    // 3. creating jwt token
+    // 3. Create JWT
     const token = jwt.sign(
       {
         userId: user._id,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
       process.env.JWT_TOKEN,
       {
         expiresIn: "30d",
-      },
+      }
     );
 
-    // 4. send response
+    // 4. Send response
     res.status(200).json({
-      message: "login successfull",
+      message: "Login successful",
       token,
-      role: user.role
+      role: user.role,
     });
+
   } catch (error) {
-    res.status(400).json({
-      message: "server error",
+    res.status(500).json({
+      message: "Server error",
       error: error.message,
     });
   }

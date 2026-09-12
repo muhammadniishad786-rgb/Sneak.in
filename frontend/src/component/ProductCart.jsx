@@ -1,0 +1,66 @@
+function ProductCard({ product }) {
+  return (
+    <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      {/* Image */}
+      <div className="relative h-64 overflow-hidden bg-slate-100">
+        <img
+          src={`http://localhost:3000${product.image}`}
+          alt={product.name}
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        />
+
+        {/* Category */}
+        {product.category && (
+          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold capitalize text-slate-700 shadow-sm backdrop-blur">
+            {product.category}
+          </span>
+        )}
+
+        {/* Wishlist */}
+        <button
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-lg text-slate-500 shadow-sm backdrop-blur transition hover:text-red-500"
+          aria-label="Add to wishlist"
+        >
+          ♡
+        </button>
+      </div>
+
+      {/* Product Details */}
+      <div className="p-5">
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Sneak.in
+        </p>
+
+        <h3 className="mt-1 line-clamp-1 text-lg font-bold capitalize text-slate-900">
+          {product.name}
+        </h3>
+
+        {/* Rating */}
+        <div className="mt-2 flex items-center gap-2">
+          <div className="text-sm text-amber-400">★★★★★</div>
+
+          <span className="text-xs text-slate-400">
+            ({product.reviews?.length || 0} reviews)
+          </span>
+        </div>
+
+        {/* Price + Cart */}
+        <div className="mt-5 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs text-slate-400">Price</p>
+
+            <p className="text-xl font-bold text-slate-900">
+              ₹{Number(product.price).toLocaleString("en-IN")}
+            </p>
+          </div>
+
+          <button className="rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-cyan-500">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProductCard;

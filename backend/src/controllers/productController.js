@@ -21,7 +21,7 @@ export const createProduct = async (req, res) => {
       brand,
       sizes: sizesArray,
       stock,
-      image: req.file.path,
+      image: `/uploads/${req.file.filename}`,
     });
 
     res.status(201).json({
@@ -125,7 +125,7 @@ export const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const { name, description, price, category, brand, sizes, stock, image } =
+    const { name, description, price, category, brand, sizes, stock } =
       req.body;
 
     const product = await Product.findById(productId);
@@ -146,7 +146,7 @@ export const updateProduct = async (req, res) => {
 
     // Update image only if a new image was uploaded
     if (req.file) {
-      product.image = req.file.path;
+      product.image = `/uploads/${req.file.filename}`;
     }
 
     await product.save();
