@@ -8,14 +8,13 @@ import Admin from "../pages/Admin";
 
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
+import Products from "../pages/Products";
 
 function AuthRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route element={<MainLayout />}>
-
           <Route path="/" element={<Home />} />
 
           <Route path="/register" element={<Register />} />
@@ -26,10 +25,9 @@ function AuthRoutes() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/products" element={<Products />} />
           </Route>
-
         </Route>
-
       </Routes>
     </BrowserRouter>
   );
