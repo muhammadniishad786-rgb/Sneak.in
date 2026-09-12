@@ -15,7 +15,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const [token, setToken] = useState(
-  localStorage.getItem("sneakToken")
+  localStorage.getItem("token")
 );
 
   const handleLogout = () => {
