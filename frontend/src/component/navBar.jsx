@@ -14,11 +14,14 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(
+  localStorage.getItem("sneakToken")
+);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
 
+    setToken(null)
     navigate("/login");
   };
 
