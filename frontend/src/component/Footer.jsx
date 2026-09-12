@@ -20,21 +20,21 @@ function Footer() {
 
             <div className="flex gap-3 mt-6">
               <a
-                href="#"
+                href="https://www.instagram.com/muhammad.nishad_/"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
                 Instagram
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/muhammad.nishad_/"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
                 Facebook
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/muhammad.nishad_/"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
                 X
@@ -157,7 +157,7 @@ function Footer() {
                   Phone
                 </p>
                 <p className="text-gray-300">
-                  +91 00000 00000
+                  +91 9778580349
                 </p>
               </div>
 
