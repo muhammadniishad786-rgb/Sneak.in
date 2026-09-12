@@ -1,3 +1,9 @@
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaXTwitter,
+} from "react-icons/fa6";
+
 function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300">
@@ -9,6 +15,7 @@ function Footer() {
 
           {/* Brand */}
           <div>
+
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Sneak<span className="text-blue-400">.in</span>
             </h2>
@@ -18,37 +25,52 @@ function Footer() {
               journey. Discover your style and make every step count.
             </p>
 
+            {/* Social Icons */}
             <div className="flex gap-3 mt-6">
+
+              {/* Instagram */}
               <a
                 href="https://www.instagram.com/muhammad.nishad_/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
-                Instagram
+                <FaInstagram size={18} />
               </a>
 
+              {/* Facebook */}
               <a
-                href="https://www.instagram.com/muhammad.nishad_/"
+                href="#"
+                aria-label="Facebook"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
-                Facebook
+                <FaFacebookF size={17} />
               </a>
 
+              {/* X */}
               <a
-                href="https://www.instagram.com/muhammad.nishad_/"
+                href="#"
+                aria-label="X"
                 className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
               >
-                X
+                <FaXTwitter size={17} />
               </a>
+
             </div>
+
           </div>
+
 
           {/* Shop */}
           <div>
+
             <h3 className="text-white font-semibold text-lg mb-5">
               Shop
             </h3>
 
             <ul className="space-y-3 text-sm">
+
               <li>
                 <a
                   href="/products"
@@ -84,16 +106,21 @@ function Footer() {
                   Casual Shoes
                 </a>
               </li>
+
             </ul>
+
           </div>
 
-          {/* Customer */}
+
+          {/* Customer Care */}
           <div>
+
             <h3 className="text-white font-semibold text-lg mb-5">
               Customer Care
             </h3>
 
             <ul className="space-y-3 text-sm">
+
               <li>
                 <a
                   href="/profile"
@@ -129,54 +156,78 @@ function Footer() {
                   Returns & Refunds
                 </a>
               </li>
+
             </ul>
+
           </div>
+
 
           {/* Contact */}
           <div>
+
             <h3 className="text-white font-semibold text-lg mb-5">
               Get In Touch
             </h3>
 
             <div className="space-y-4 text-sm">
 
+              {/* Email */}
               <div>
+
                 <p className="text-gray-500 text-xs uppercase tracking-wider">
                   Email
                 </p>
+
                 <a
                   href="mailto:support@sneak.in"
                   className="text-gray-300 hover:text-white transition"
                 >
                   support@sneak.in
                 </a>
+
               </div>
 
+
+              {/* Phone */}
               <div>
+
                 <p className="text-gray-500 text-xs uppercase tracking-wider">
                   Phone
                 </p>
-                <p className="text-gray-300">
+
+                <a
+                  href="tel:+919778580349"
+                  className="text-gray-300 hover:text-white transition"
+                >
                   +91 9778580349
-                </p>
+                </a>
+
               </div>
 
+
+              {/* Support */}
               <div>
+
                 <p className="text-gray-500 text-xs uppercase tracking-wider">
                   Support
                 </p>
+
                 <p className="text-gray-400">
                   Monday – Saturday
                   <br />
                   9:00 AM – 6:00 PM
                 </p>
+
               </div>
 
             </div>
+
           </div>
 
         </div>
+
       </div>
+
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-800">
@@ -188,6 +239,7 @@ function Footer() {
           </p>
 
           <div className="flex gap-6 text-sm text-gray-500">
+
             <a
               href="#"
               className="hover:text-white transition"
@@ -201,6 +253,7 @@ function Footer() {
             >
               Terms & Conditions
             </a>
+
           </div>
 
         </div>
