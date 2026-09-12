@@ -17,7 +17,7 @@ function Navbar() {
   const token = localStorage.getItem("sneakToken");
 
   const handleLogout = () => {
-    localStorage.removeItem("sneakToken");
+    localStorage.removeItem("token");
     localStorage.removeItem("sneakUser");
 
     navigate("/login");
