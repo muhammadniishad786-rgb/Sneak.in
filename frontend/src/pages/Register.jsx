@@ -28,7 +28,27 @@ function Register() {
 
     setError("");
 
-    // Check password confirmation
+    // 1. Check name
+    if (!formData.name.trim()) {
+      setError("Name is required");
+      return;
+    }
+
+    // 2. Check email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // 3. Check password length
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
+    // 4. Check password confirmation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -36,13 +56,17 @@ function Register() {
 
     try {
       const response = await registerUser(formData);
-      console.log(response.data);
-      navigate("/login")
-      
 
+      console.log(response.data);
+
+      navigate("/login");
     } catch (error) {
       console.log(error);
-      setError("Something went wrong. Please try again.");
+
+      setError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
     }
   };
 
@@ -146,4 +170,3 @@ function Register() {
 }
 
 export default Register;
-
