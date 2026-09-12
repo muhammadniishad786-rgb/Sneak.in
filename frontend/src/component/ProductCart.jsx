@@ -4,7 +4,11 @@ function ProductCard({ product }) {
       {/* Image */}
       <div className="relative h-64 overflow-hidden bg-slate-100">
         <img
-          src={`http://localhost:3000${product.image}`}
+          src={
+            product.image.startsWith("http")
+              ? product.image
+              : `https://sneak-in-backend.onrender.com${product.image}`
+          }
           alt={product.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
