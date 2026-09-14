@@ -10,6 +10,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
 import Products from "../pages/Products";
 import CreateProduct from "../pages/admin/CreateProducts";
+import ProductDetails from "../component/ProductDetails";
 
 function AuthRoutes() {
   return (
@@ -27,6 +28,7 @@ function AuthRoutes() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<CreateProduct />} />
             <Route path="/products" element={<Products />} />
+            <Route path="//product/:id" element={<ProductDetails /> } />
           </Route>
         </Route>
       </Routes>
