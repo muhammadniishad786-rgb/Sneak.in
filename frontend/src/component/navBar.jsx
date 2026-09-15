@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import {
   ShoppingBag,
   User,
@@ -19,6 +21,16 @@ function Navbar() {
     localStorage.getItem("token")
   );
 
+  // Get cart from Redux
+  const { cart } = useSelector((state) => state.cart);
+
+  // Calculate total quantity
+  const cartCount =
+    cart?.items?.reduce(
+      (total, item) => total + item.quantity,
+      0
+    ) || 0;
+
   const handleLogout = () => {
     localStorage.removeItem("token");
 
@@ -35,7 +47,6 @@ function Navbar() {
 
         <div className="flex h-[76px] items-center justify-between">
 
-
           {/* =================================================
               LOGO
           ================================================= */}
@@ -44,17 +55,13 @@ function Navbar() {
             to="/"
             className="group shrink-0"
           >
-
             <div className="text-2xl font-black tracking-tight text-white sm:text-3xl">
-
               Sneak<span className="text-sky-400">.in</span>
-
             </div>
 
             <p className="hidden text-[8px] uppercase tracking-[0.35em] text-gray-500 sm:block">
               Step Into Style
             </p>
-
           </Link>
 
 
@@ -152,7 +159,6 @@ function Navbar() {
 
           <div className="hidden items-center gap-2 md:flex">
 
-
             {/* Search */}
 
             <button
@@ -164,7 +170,10 @@ function Navbar() {
             </button>
 
 
-            {/* Cart */}
+            {/* =================================================
+                CART
+            ================================================= */}
+
             <button
               onClick={() => navigate("/cart")}
               className="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-400 transition hover:bg-white/10 hover:text-white"
@@ -175,9 +184,11 @@ function Navbar() {
 
               {/* Cart Count */}
 
-              <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-sky-400 text-[9px] font-bold text-gray-950">
-                0
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-sky-400 px-1 text-[9px] font-bold text-gray-950">
+                  {cartCount}
+                </span>
+              )}
 
             </button>
 
@@ -220,10 +231,6 @@ function Navbar() {
               </div>
 
             ) : (
-
-              /* =================================================
-                 LOGGED OUT
-              ================================================= */
 
               <div className="flex items-center gap-2">
 
@@ -279,7 +286,6 @@ function Navbar() {
           <div className="border-t border-white/10 py-5 md:hidden">
 
             <div className="flex flex-col gap-1">
-
 
               {/* Home */}
 
@@ -347,7 +353,9 @@ function Navbar() {
               </button>
 
 
-              {/* Cart */}
+              {/* =================================================
+                  MOBILE CART
+              ================================================= */}
 
               <button
                 onClick={() => {
@@ -361,9 +369,11 @@ function Navbar() {
 
                 Shopping Cart
 
-                <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-sky-400 text-[9px] font-bold text-gray-950">
-                  0
-                </span>
+                {cartCount > 0 && (
+                  <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-sky-400 px-1 text-[9px] font-bold text-gray-950">
+                    {cartCount}
+                  </span>
+                )}
 
               </button>
 
