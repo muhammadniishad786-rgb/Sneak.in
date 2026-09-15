@@ -8,6 +8,7 @@ import authRoute from "./src/routes/authRoutes.js";
 import userRoute from "./src/routes/userRoutes.js";
 import adminRoute from "./src/routes/adminRoutes.js";
 import productRoute from "./src/routes/productRoutes.js";
+import cartRoute from "./src/routes/cartRoutes.js"
 import path from "path";
 
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/auth", authRoute);
 app.use("/api", userRoute);
 app.use("/api", adminRoute);
 app.use("/api", productRoute);
+app.use("/api", cartRoute)
 
 // Serve uploaded images
 app.use(
