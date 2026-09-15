@@ -11,6 +11,7 @@ import MainLayout from "../layouts/MainLayout";
 import Products from "../pages/Products";
 import CreateProduct from "../pages/admin/CreateProducts";
 import ProductDetails from "../component/ProductDetails";
+import CartPage from "../pages/CartPage";
 
 function AuthRoutes() {
   return (
@@ -29,6 +30,7 @@ function AuthRoutes() {
             <Route path="/admin" element={<CreateProduct />} />
             <Route path="/products" element={<Products />} />
             <Route path="//product/:id" element={<ProductDetails /> } />
+            <Route path="/cart" element={<CartPage />} />
           </Route>
         </Route>
       </Routes>

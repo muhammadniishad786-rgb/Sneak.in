@@ -165,7 +165,6 @@ function Navbar() {
 
 
             {/* Cart */}
-
             <button
               onClick={() => navigate("/cart")}
               className="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-400 transition hover:bg-white/10 hover:text-white"
