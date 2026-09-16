@@ -150,6 +150,15 @@ function Navbar() {
               <span className="absolute -bottom-2 left-0 h-px w-0 bg-sky-400 transition-all duration-300 group-hover:w-full" />
             </Link>
 
+            <Link
+              to="/address"
+              className="group relative text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-300 transition hover:text-white"
+            >
+              Addresses
+
+              <span className="absolute -bottom-2 left-0 h-px w-0 bg-sky-400 transition-all duration-300 group-hover:w-full" />
+            </Link>
+
           </div>
 
 
