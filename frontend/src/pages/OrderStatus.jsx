@@ -22,9 +22,7 @@ function OrderStatus() {
   // Get order ID from URL
   const { id } = useParams();
 
-  const { order, loading, error } = useSelector(
-    (state) => state.order
-  );
+  const { order, loading, error } = useSelector((state) => state.order);
 
   useEffect(() => {
     if (id) {
@@ -65,9 +63,7 @@ function OrderStatus() {
             Unable to load order
           </h1>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            {error}
-          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-500">{error}</p>
 
           <button
             onClick={() => navigate("/")}
@@ -85,23 +81,17 @@ function OrderStatus() {
   }
 
   // Format date
-  const orderDate = new Date(order.createdAt).toLocaleDateString(
-    "en-IN",
-    {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }
-  );
+  const orderDate = new Date(order.createdAt).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   // Format time
-  const orderTime = new Date(order.createdAt).toLocaleTimeString(
-    "en-IN",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
+  const orderTime = new Date(order.createdAt).toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   // Order status
   const statusSteps = [
@@ -127,31 +117,19 @@ function OrderStatus() {
     },
   ];
 
-  const statusOrder = [
-    "Placed",
-    "Confirmed",
-    "Shipped",
-    "Delivered",
-  ];
+  const statusOrder = ["Placed", "Confirmed", "Shipped", "Delivered"];
 
-  const currentStatusIndex = statusOrder.indexOf(
-    order.orderStatus
-  );
+  const currentStatusIndex = statusOrder.indexOf(order.orderStatus);
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-5xl">
-
         {/* ==========================================
             SUCCESS HEADER
         ========================================== */}
         <div className="text-center">
-
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50">
-            <FiCheckCircle
-              size={34}
-              className="text-emerald-500"
-            />
+            <FiCheckCircle size={34} className="text-emerald-500" />
           </div>
 
           <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-sky-500">
@@ -163,8 +141,8 @@ function OrderStatus() {
           </h1>
 
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
-            Thank you for shopping with Sneak.in. Your order has
-            been received and is being processed.
+            Thank you for shopping with Sneak.in. Your order has been received
+            and is being processed.
           </p>
         </div>
 
@@ -189,27 +167,19 @@ function OrderStatus() {
             MAIN CONTENT
         ========================================== */}
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
-
           {/* ========================================
               LEFT
           ======================================== */}
           <div className="space-y-6 lg:col-span-2">
-
             {/* Order Tracking */}
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50">
-                  <FiTruck
-                    size={19}
-                    className="text-sky-500"
-                  />
+                  <FiTruck size={19} className="text-sky-500" />
                 </div>
 
                 <div>
-                  <h2 className="font-bold text-slate-900">
-                    Order Status
-                  </h2>
+                  <h2 className="font-bold text-slate-900">Order Status</h2>
 
                   <p className="mt-1 text-xs text-slate-500">
                     Track your order progress
@@ -220,7 +190,6 @@ function OrderStatus() {
               {/* Status Timeline */}
               <div className="mt-8">
                 <div className="relative">
-
                   {/* Connecting Line */}
                   <div className="absolute left-[19px] top-5 h-[calc(100%-40px)] w-0.5 bg-slate-200 sm:left-1/2 sm:top-5 sm:h-0.5 sm:w-[calc(100%-80px)] sm:-translate-x-1/2" />
 
@@ -228,11 +197,9 @@ function OrderStatus() {
                     {statusSteps.map((step, index) => {
                       const Icon = step.icon;
 
-                      const isCompleted =
-                        currentStatusIndex >= index;
+                      const isCompleted = currentStatusIndex >= index;
 
-                      const isCurrent =
-                        order.orderStatus === step.key;
+                      const isCurrent = order.orderStatus === step.key;
 
                       return (
                         <div
@@ -276,26 +243,18 @@ function OrderStatus() {
 
             {/* Ordered Products */}
             <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-
               <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
-                    <FiShoppingBag
-                      size={19}
-                      className="text-slate-700"
-                    />
+                    <FiShoppingBag size={19} className="text-slate-700" />
                   </div>
 
                   <div>
-                    <h2 className="font-bold text-slate-900">
-                      Order Items
-                    </h2>
+                    <h2 className="font-bold text-slate-900">Order Items</h2>
 
                     <p className="mt-1 text-xs text-slate-500">
                       {order.items.length}{" "}
-                      {order.items.length === 1
-                        ? "product"
-                        : "products"}
+                      {order.items.length === 1 ? "product" : "products"}
                     </p>
                   </div>
                 </div>
@@ -303,24 +262,22 @@ function OrderStatus() {
 
               <div className="divide-y divide-slate-100">
                 {order.items.map((item) => (
-                  <div
-                    key={item._id}
-                    className="flex gap-4 px-5 py-5 sm:px-6"
-                  >
+                  <div key={item._id} className="flex gap-4 px-5 py-5 sm:px-6">
                     {/* Product Image */}
                     <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:h-24 sm:w-24">
                       {item.product?.image ? (
                         <img
-                          src={item.product.image}
-                          alt={item.name}
-                          className="h-full w-full object-cover"
+                          src={
+                            item.product?.image?.startsWith("http")
+                              ? item.product.image
+                              : `https://sneak-in-backend.onrender.com${item.product?.image}`
+                          }
+                          alt={item.product?.name}
+                          className="h-20 w-20 rounded-lg object-cover"
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">
-                          <FiShoppingBag
-                            size={22}
-                            className="text-slate-300"
-                          />
+                          <FiShoppingBag size={22} className="text-slate-300" />
                         </div>
                       )}
                     </div>
@@ -337,18 +294,14 @@ function OrderStatus() {
                       </div>
 
                       <p className="mt-2 text-sm font-bold text-slate-900">
-                        ₹
-                        {(
-                          item.price * item.quantity
-                        ).toLocaleString("en-IN")}
+                        ₹{(item.price * item.quantity).toLocaleString("en-IN")}
                       </p>
                     </div>
 
                     {/* Unit Price */}
                     <div className="hidden text-right sm:block">
                       <p className="text-xs text-slate-400">
-                        ₹
-                        {item.price.toLocaleString("en-IN")} each
+                        ₹{item.price.toLocaleString("en-IN")} each
                       </p>
                     </div>
                   </div>
@@ -358,19 +311,13 @@ function OrderStatus() {
 
             {/* Shipping Address */}
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
-                  <FiMapPin
-                    size={19}
-                    className="text-slate-700"
-                  />
+                  <FiMapPin size={19} className="text-slate-700" />
                 </div>
 
                 <div>
-                  <h2 className="font-bold text-slate-900">
-                    Delivery Address
-                  </h2>
+                  <h2 className="font-bold text-slate-900">Delivery Address</h2>
 
                   <p className="mt-1 text-xs text-slate-500">
                     Your order will be delivered here
@@ -390,8 +337,7 @@ function OrderStatus() {
                 <p className="mt-3 text-sm leading-6 text-slate-600">
                   {order.shippingAddress.addressLine}
                   <br />
-                  {order.shippingAddress.city},{" "}
-                  {order.shippingAddress.state} -{" "}
+                  {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
                   {order.shippingAddress.pincode}
                 </p>
               </div>
@@ -402,28 +348,19 @@ function OrderStatus() {
               RIGHT
           ======================================== */}
           <div className="space-y-6 lg:sticky lg:top-6 lg:self-start">
-
             {/* Payment & Summary */}
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-
-              <h2 className="font-bold text-slate-900">
-                Order Summary
-              </h2>
+              <h2 className="font-bold text-slate-900">Order Summary</h2>
 
               {/* Payment */}
               <div className="mt-5 rounded-xl bg-slate-50 p-4">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white">
-                    <FiCreditCard
-                      size={17}
-                      className="text-slate-600"
-                    />
+                    <FiCreditCard size={17} className="text-slate-600" />
                   </div>
 
                   <div>
-                    <p className="text-xs text-slate-400">
-                      Payment Method
-                    </p>
+                    <p className="text-xs text-slate-400">Payment Method</p>
 
                     <p className="mt-0.5 text-sm font-semibold text-slate-900">
                       {order.paymentMethod === "COD"
@@ -434,9 +371,7 @@ function OrderStatus() {
                 </div>
 
                 <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
-                  <span className="text-xs text-slate-500">
-                    Payment Status
-                  </span>
+                  <span className="text-xs text-slate-500">Payment Status</span>
 
                   <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-600">
                     {order.paymentStatus}
@@ -447,9 +382,7 @@ function OrderStatus() {
               {/* Price */}
               <div className="mt-5 space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">
-                    Subtotal
-                  </span>
+                  <span className="text-slate-500">Subtotal</span>
 
                   <span className="font-medium text-slate-900">
                     ₹{order.totalAmount.toLocaleString("en-IN")}
@@ -457,22 +390,16 @@ function OrderStatus() {
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">
-                    Delivery
-                  </span>
+                  <span className="text-slate-500">Delivery</span>
 
-                  <span className="font-semibold text-emerald-600">
-                    FREE
-                  </span>
+                  <span className="font-semibold text-emerald-600">FREE</span>
                 </div>
               </div>
 
               <div className="my-5 border-t border-dashed border-slate-200" />
 
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-900">
-                  Total
-                </span>
+                <span className="font-bold text-slate-900">Total</span>
 
                 <span className="text-2xl font-bold text-slate-900">
                   ₹{order.totalAmount.toLocaleString("en-IN")}
@@ -481,15 +408,10 @@ function OrderStatus() {
 
               {/* Current Status */}
               <div className="mt-5 flex items-center gap-3 rounded-xl border border-sky-100 bg-sky-50 p-4">
-                <FiClock
-                  size={18}
-                  className="shrink-0 text-sky-500"
-                />
+                <FiClock size={18} className="shrink-0 text-sky-500" />
 
                 <div>
-                  <p className="text-xs text-sky-600">
-                    Current Status
-                  </p>
+                  <p className="text-xs text-sky-600">Current Status</p>
 
                   <p className="mt-0.5 text-sm font-bold text-slate-900">
                     {order.orderStatus}
