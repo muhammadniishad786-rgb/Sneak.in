@@ -147,3 +147,31 @@ export const getOrderById = async (req, res) => {
     });
   }
 };
+
+// get all orders
+export const getOrders = async (req, res) => {
+  try {
+    // Get logged-in user's ID from JWT
+    const userId = req.user.userId;
+
+    // Find all orders belonging to this user
+    const orders = await Order.find({
+      user: userId,
+    })
+      .populate("items.product")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      message: "Orders fetched successfully",
+      orders,
+    });
+  } catch (error) {
+    console.error("Get orders error:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch orders",
+      error: error.message,
+    });
+  }
+};
+
