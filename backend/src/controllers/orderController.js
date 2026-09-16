@@ -59,8 +59,15 @@ export const createOrder = async (req, res) => {
       0
     );
 
-    // 10. Create order
+    // 10. Generate unique order number
+    const orderNumber = `ORD-${Date.now()}-${Math.floor(
+      Math.random() * 1000
+    )}`;
+
+    // 11. Create order
     const order = await Order.create({
+      orderNumber,
+
       user: userId,
 
       items: orderItems,
@@ -83,17 +90,16 @@ export const createOrder = async (req, res) => {
       orderStatus: "Placed",
     });
 
-    // 11. Clear cart after successful order creation
+    // 12. Clear cart after successful order creation
     cart.items = [];
 
     await cart.save();
 
-    // 12. Return successful response
+    // 13. Return successful response
     res.status(201).json({
       message: "Order created successfully",
       order,
     });
-
   } catch (error) {
     console.error("Create order error:", error);
 

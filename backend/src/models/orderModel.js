@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+    orderNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
     // User who placed the order
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -97,19 +103,13 @@ const orderSchema = new mongoose.Schema(
     // Order status
     orderStatus: {
       type: String,
-      enum: [
-        "Placed",
-        "Confirmed",
-        "Shipped",
-        "Delivered",
-        "Cancelled",
-      ],
+      enum: ["Placed", "Confirmed", "Shipped", "Delivered", "Cancelled"],
       default: "Placed",
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Order = mongoose.model("Order", orderSchema);
