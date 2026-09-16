@@ -25,7 +25,7 @@ function Checkout() {
   const { cart } = useSelector((state) => state.cart);
 
   const { loading: orderLoading, error: orderError } = useSelector(
-    (state) => state.order
+    (state) => state.order,
   );
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function Checkout() {
         createNewOrder({
           addressId: selectedAddress,
           paymentMethod: "COD",
-        })
+        }),
       ).unwrap();
 
       navigate(`/orders/${order._id}`);
@@ -59,7 +59,7 @@ function Checkout() {
   // Calculate total
   const totalAmount = cartItems.reduce(
     (total, item) => total + item.product.price * item.quantity,
-    0
+    0,
   );
 
   // Add Address
@@ -76,7 +76,7 @@ function Checkout() {
 
       // Automatically select default address
       const defaultAddress = data.addresses.find(
-        (address) => address.isDefault
+        (address) => address.isDefault,
       );
 
       if (defaultAddress) {
@@ -116,7 +116,6 @@ function Checkout() {
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-7xl">
-
         {/* ========================================
             HEADER
         ======================================== */}
@@ -134,8 +133,8 @@ function Checkout() {
           </h1>
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
-            Complete your order by selecting your delivery address and
-            reviewing your order details.
+            Complete your order by selecting your delivery address and reviewing
+            your order details.
           </p>
         </div>
 
@@ -143,24 +142,18 @@ function Checkout() {
             CHECKOUT LAYOUT
         ======================================== */}
         <div className="grid items-start gap-6 lg:grid-cols-3 lg:gap-8">
-
           {/* ======================================
               LEFT CONTENT
           ====================================== */}
           <div className="space-y-6 lg:col-span-2">
-
             {/* Delivery Address */}
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
               {/* Section Header */}
               <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50">
-                      <FiMapPin
-                        size={19}
-                        className="text-sky-500"
-                      />
+                      <FiMapPin size={19} className="text-sky-500" />
                     </div>
 
                     <div>
@@ -185,14 +178,10 @@ function Checkout() {
 
               {/* Address List */}
               <div className="p-5 sm:p-6">
-
                 {addresses.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center">
                     <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm">
-                      <FiMapPin
-                        size={24}
-                        className="text-slate-400"
-                      />
+                      <FiMapPin size={24} className="text-slate-400" />
                     </div>
 
                     <h3 className="mt-4 font-bold text-slate-900">
@@ -215,16 +204,13 @@ function Checkout() {
                 ) : (
                   <div className="space-y-3">
                     {addresses.map((address) => {
-                      const isSelected =
-                        selectedAddress === address._id;
+                      const isSelected = selectedAddress === address._id;
 
                       return (
                         <button
                           key={address._id}
                           type="button"
-                          onClick={() =>
-                            setSelectedAddress(address._id)
-                          }
+                          onClick={() => setSelectedAddress(address._id)}
                           className={`group w-full rounded-2xl border p-4 text-left transition-all duration-200 sm:p-5 ${
                             isSelected
                               ? "border-sky-400 bg-sky-50/60 shadow-sm ring-1 ring-sky-200"
@@ -232,7 +218,6 @@ function Checkout() {
                           }`}
                         >
                           <div className="flex items-start gap-4">
-
                             {/* Radio */}
                             <div
                               className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition ${
@@ -252,7 +237,6 @@ function Checkout() {
 
                             {/* Address */}
                             <div className="min-w-0 flex-1">
-
                               <div className="flex flex-wrap items-center gap-2">
                                 <h3 className="font-bold text-slate-900">
                                   {address.name}
@@ -278,8 +262,7 @@ function Checkout() {
                                 <p className="text-sm leading-6 text-slate-600">
                                   {address.addressLine}
                                   <br />
-                                  {address.city},{" "}
-                                  {address.state} -{" "}
+                                  {address.city}, {address.state} -{" "}
                                   {address.pincode}
                                 </p>
                               </div>
@@ -311,7 +294,6 @@ function Checkout() {
                   size={18}
                   className="transition-transform group-hover:rotate-90"
                 />
-
                 Add New Address
               </button>
             )}
@@ -320,16 +302,11 @@ function Checkout() {
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100">
-                  <FiCreditCard
-                    size={19}
-                    className="text-slate-700"
-                  />
+                  <FiCreditCard size={19} className="text-slate-700" />
                 </div>
 
                 <div>
-                  <h2 className="font-bold text-slate-900">
-                    Payment Method
-                  </h2>
+                  <h2 className="font-bold text-slate-900">Payment Method</h2>
 
                   <p className="mt-1 text-xs text-slate-500 sm:text-sm">
                     Available payment option for this order.
@@ -340,10 +317,7 @@ function Checkout() {
               <div className="mt-5 rounded-xl border border-sky-300 bg-sky-50/60 p-4">
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
-                    <FiTruck
-                      size={19}
-                      className="text-sky-500"
-                    />
+                    <FiTruck size={19} className="text-sky-500" />
                   </div>
 
                   <div className="flex-1">
@@ -357,11 +331,7 @@ function Checkout() {
                   </div>
 
                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500">
-                    <FiCheck
-                      size={12}
-                      strokeWidth={3}
-                      className="text-white"
-                    />
+                    <FiCheck size={12} strokeWidth={3} className="text-white" />
                   </div>
                 </div>
               </div>
@@ -372,23 +342,16 @@ function Checkout() {
               RIGHT ORDER SUMMARY
           ====================================== */}
           <aside className="lg:sticky lg:top-6">
-
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
               {/* Summary Header */}
               <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
-                    <FiShoppingBag
-                      size={18}
-                      className="text-white"
-                    />
+                    <FiShoppingBag size={18} className="text-white" />
                   </div>
 
                   <div>
-                    <h2 className="font-bold text-slate-900">
-                      Order Summary
-                    </h2>
+                    <h2 className="font-bold text-slate-900">Order Summary</h2>
 
                     <p className="text-xs text-slate-500">
                       {cartItems.length}{" "}
@@ -402,15 +365,16 @@ function Checkout() {
               <div className="max-h-72 overflow-y-auto px-5 py-5 sm:px-6">
                 <div className="space-y-4">
                   {cartItems.map((item) => (
-                    <div
-                      key={item._id}
-                      className="flex gap-3"
-                    >
+                    <div key={item._id} className="flex gap-3">
                       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-slate-100">
                         <img
-                          src={item.product.image}
-                          alt={item.product.name}
-                          className="h-full w-full object-cover"
+                          src={
+                            item.product?.image?.startsWith("http")
+                              ? item.product.image
+                              : `https://sneak-in-backend.onrender.com${item.product?.image}`
+                          }
+                          alt={item.product?.name}
+                          className="h-20 w-20 rounded-lg object-cover"
                         />
                       </div>
 
@@ -425,9 +389,9 @@ function Checkout() {
 
                         <p className="mt-1 text-sm font-bold text-slate-900">
                           ₹
-                          {(
-                            item.product.price * item.quantity
-                          ).toLocaleString("en-IN")}
+                          {(item.product.price * item.quantity).toLocaleString(
+                            "en-IN",
+                          )}
                         </p>
                       </div>
                     </div>
@@ -439,9 +403,7 @@ function Checkout() {
               <div className="border-t border-slate-100 px-5 py-5 sm:px-6">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">
-                      Subtotal
-                    </span>
+                    <span className="text-slate-500">Subtotal</span>
 
                     <span className="font-medium text-slate-900">
                       ₹{totalAmount.toLocaleString("en-IN")}
@@ -449,13 +411,9 @@ function Checkout() {
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">
-                      Delivery
-                    </span>
+                    <span className="text-slate-500">Delivery</span>
 
-                    <span className="font-semibold text-emerald-600">
-                      FREE
-                    </span>
+                    <span className="font-semibold text-emerald-600">FREE</span>
                   </div>
                 </div>
 
@@ -463,9 +421,7 @@ function Checkout() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-bold text-slate-900">
-                      Total
-                    </p>
+                    <p className="font-bold text-slate-900">Total</p>
 
                     <p className="mt-0.5 text-xs text-slate-400">
                       Inclusive of all charges
@@ -489,9 +445,7 @@ function Checkout() {
                   type="button"
                   onClick={handlePlaceOrder}
                   disabled={
-                    !selectedAddress ||
-                    orderLoading ||
-                    cartItems.length === 0
+                    !selectedAddress || orderLoading || cartItems.length === 0
                   }
                   className="group mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-4 text-sm font-bold text-white shadow-sm transition-all hover:bg-slate-800 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
@@ -518,8 +472,8 @@ function Checkout() {
                 )}
 
                 <p className="mt-4 text-center text-[11px] leading-5 text-slate-400">
-                  By placing your order, you confirm that your
-                  delivery details are correct.
+                  By placing your order, you confirm that your delivery details
+                  are correct.
                 </p>
               </div>
             </div>
