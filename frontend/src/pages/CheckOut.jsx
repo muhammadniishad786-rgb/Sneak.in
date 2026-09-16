@@ -200,6 +200,7 @@ function Checkout() {
             {addresses.length > 0 && (
               <button
                 type="button"
+                onClick={handleAddress}
                 className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-4 text-sm font-semibold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-600"
               >
                 <FiPlus size={18} />
