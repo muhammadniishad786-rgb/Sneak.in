@@ -9,6 +9,7 @@ import userRoute from "./src/routes/userRoutes.js";
 import adminRoute from "./src/routes/adminRoutes.js";
 import productRoute from "./src/routes/productRoutes.js";
 import cartRoute from "./src/routes/cartRoutes.js"
+import addressRoute from "./src/routes/addressRoutes.js"
 import path from "path";
 
 const app = express();
@@ -23,6 +24,7 @@ app.use("/api", userRoute);
 app.use("/api", adminRoute);
 app.use("/api", productRoute);
 app.use("/api", cartRoute)
+app.use("/api/", addressRoute)
 
 // Serve uploaded images
 app.use(
