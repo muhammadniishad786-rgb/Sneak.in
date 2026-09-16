@@ -3,12 +3,14 @@ import { FiMapPin, FiPlus, FiCheck, FiShoppingBag } from "react-icons/fi";
 import { getAddress } from "../services/addressApi";
 import { fetchCart } from "../redux/features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const {cart} = useSelector(
     (state) => state.cart
   )
@@ -26,6 +28,11 @@ function Checkout() {
       total + item.product.price * item.quantity,
     0
   );  
+
+  // for handle add address
+  const handleAddress = () => {
+    navigate("/address")
+  }
   
   // for setting the addresses 
   const fetchAddresses = async () => {
@@ -119,6 +126,7 @@ function Checkout() {
 
                   <button
                     type="button"
+                    onClick={handleAddress}
                     className="mt-5 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                   >
                     <FiPlus size={17} />
