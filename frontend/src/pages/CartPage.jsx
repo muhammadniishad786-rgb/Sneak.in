@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import CartCard from "../component/CartCard";
 import { fetchCart } from "../redux/features/cartSlice";
 
+
 function CartPage() {
   const dispatch = useDispatch();
 
@@ -230,13 +231,13 @@ function CartPage() {
                 </div>
 
               </div>
-
+              <Link to="/checkout">
               <button
                 className="mt-7 w-full rounded-xl bg-slate-900 px-5 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 active:scale-[0.99]"
               >
                 Proceed to Checkout
               </button>
-
+              </Link>
               <div className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-400">
                 <span>🔒</span>
                 <span>Secure checkout</span>
