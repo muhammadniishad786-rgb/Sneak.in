@@ -1,26 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { createOrder } from "../../services/orderApi";
+import {
+  createOrder,
+  getOrderById,
+} from "../../services/orderApi";
 
-
+// ========================================
 // Create Order
+// ========================================
 export const createNewOrder = createAsyncThunk(
   "order/createNewOrder",
 
   async (orderData, { rejectWithValue }) => {
     try {
-      console.log("ORDER DATA SENT:", orderData);
-
       const data = await createOrder(orderData);
-
-      console.log("ORDER API RESPONSE:", data);
 
       return data.order;
     } catch (error) {
-      console.log("ORDER API ERROR:", error);
-      console.log("ORDER API ERROR RESPONSE:", error.response?.data);
-      console.log("ORDER API ERROR STATUS:", error.response?.status);
-
       return rejectWithValue(
         error.response?.data?.message ||
           "Failed to create order"
@@ -29,14 +25,38 @@ export const createNewOrder = createAsyncThunk(
   }
 );
 
+// ========================================
+// Get Order By ID
+// ========================================
+export const fetchOrderById = createAsyncThunk(
+  "order/fetchOrderById",
 
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await getOrderById(id);
+
+      return data.order;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch order"
+      );
+    }
+  }
+);
+
+// ========================================
+// Initial State
+// ========================================
 const initialState = {
   order: null,
   loading: false,
   error: null,
 };
 
-
+// ========================================
+// Order Slice
+// ========================================
 const orderSlice = createSlice({
   name: "order",
 
@@ -47,25 +67,44 @@ const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // Pending
+      // ========================================
+      // Create Order
+      // ========================================
+
       .addCase(createNewOrder.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
 
-      // Success
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.order = action.payload;
       })
 
-      // Error
       .addCase(createNewOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ========================================
+      // Fetch Order By ID
+      // ========================================
+
+      .addCase(fetchOrderById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchOrderById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.order = action.payload;
+      })
+
+      .addCase(fetchOrderById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
-
 
 export default orderSlice.reducer;

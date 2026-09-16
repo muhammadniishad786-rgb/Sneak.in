@@ -4,3 +4,10 @@ export const createOrder = async (orderData) => {
     const response = await api.post("/order", orderData)
     return response.data
 }
+
+// Get single order
+export const getOrderById = async (id) => {
+  const response = await api.get(`/order/${id}`);
+
+  return response.data;
+};

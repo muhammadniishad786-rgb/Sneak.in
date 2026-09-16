@@ -109,3 +109,41 @@ export const createOrder = async (req, res) => {
     });
   }
 };
+
+// get order status
+
+export const getOrderById = async (req, res) => {
+  try {
+    // 1. Get logged-in user's ID
+    const userId = req.user.userId;
+
+    // 2. Get order ID from URL
+    const { id } = req.params;
+
+    // 3. Find order belonging to this user
+    const order = await Order.findOne({
+      _id: id,
+      user: userId,
+    }).populate("items.product");
+
+    // 4. Check whether order exists
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    // 5. Return order
+    res.status(200).json({
+      message: "Order fetched successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Get order error:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch order",
+      error: error.message,
+    });
+  }
+};
