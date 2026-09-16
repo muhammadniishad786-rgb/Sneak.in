@@ -16,6 +16,7 @@ import AddressPage from "../pages/AddressPage";
 import Checkout from "../pages/CheckOut";
 import AddressForm from "../pages/AddressPage";
 import OrderStatus from "../pages/OrderStatus";
+import OrderHistory from "../pages/OrderHistory";
 
 function AuthRoutes() {
   return (
@@ -38,6 +39,7 @@ function AuthRoutes() {
             <Route path="/address" element={<AddressPage /> } />
             <Route path="/checkout" element={<Checkout /> } />
             <Route path="/orders/:id" element={<OrderStatus /> } />
+            <Route path="/orders" element={<OrderHistory /> } />
             {/* <Route path="/address-form" element={<AddressForm /> } /> */}
 
           </Route>

@@ -6,6 +6,6 @@ const router = express.Router()
 
 router.post("/order", authMiddleware, createOrder)
 router.get("/order/:id", authMiddleware, getOrderById)
-router.get("/orders", authMiddleware, getOrders)
+router.get("/order", authMiddleware, getOrders)
 
 export default router

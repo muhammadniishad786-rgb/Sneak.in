@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
   createOrder,
+  getOrder,
   getOrderById,
 } from "../../services/orderApi";
 
@@ -46,10 +47,31 @@ export const fetchOrderById = createAsyncThunk(
 );
 
 // ========================================
+// Get All Orders
+// ========================================
+export const fetchAllOrders = createAsyncThunk(
+  "order/fetchAllOrders",
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getOrder();
+
+      return data.orders;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch orders"
+      );
+    }
+  }
+);
+
+// ========================================
 // Initial State
 // ========================================
 const initialState = {
   order: null,
+  orders: [],
   loading: false,
   error: null,
 };
@@ -101,6 +123,25 @@ const orderSlice = createSlice({
       })
 
       .addCase(fetchOrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ========================================
+      // Fetch All Orders
+      // ========================================
+
+      .addCase(fetchAllOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchAllOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+      })
+
+      .addCase(fetchAllOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

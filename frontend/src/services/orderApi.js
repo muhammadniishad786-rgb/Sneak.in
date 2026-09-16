@@ -11,3 +11,9 @@ export const getOrderById = async (id) => {
 
   return response.data;
 };
+
+export const getOrder = async () => {
+    const response = await api.get("/orders")
+
+    return response.data
+}
