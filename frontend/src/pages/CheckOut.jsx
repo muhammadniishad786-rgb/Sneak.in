@@ -4,37 +4,55 @@ import { getAddress } from "../services/addressApi";
 import { fetchCart } from "../redux/features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createNewOrder } from "../redux/features/orderSlice";
 
 function Checkout() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const {cart} = useSelector(
-    (state) => state.cart
-  )
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { cart } = useSelector((state) => state.cart);
 
   useEffect(() => {
     fetchAddresses();
-    dispatch(fetchCart())
+    dispatch(fetchCart());
   }, []);
+
+  // for creating order status
+  const handlePlaceOrder = async () => {
+    console.log("PLACE ORDER BUTTON CLICKED");
+    if (!selectedAddress) {
+      return;
+    }
+
+    try {
+      await dispatch(
+        createNewOrder({
+          addressId: selectedAddress,
+          paymentMethod: "COD",
+        }),
+      ).unwrap();
+
+      navigate("/orders");
+    } catch (error) {
+      console.error("Failed to place order:", error);
+    }
+  };
 
   // for setting the cart items total amount
   const cartItems = cart?.items || [];
   const totalAmount = cartItems.reduce(
-    (total, item) =>
-      total + item.product.price * item.quantity,
-    0
-  );  
+    (total, item) => total + item.product.price * item.quantity,
+    0,
+  );
 
   // for handle add address
   const handleAddress = () => {
-    navigate("/address")
-  }
-  
-  // for setting the addresses 
+    navigate("/address");
+  };
+
+  // for setting the addresses
   const fetchAddresses = async () => {
     try {
       const data = await getAddress();
@@ -55,6 +73,10 @@ function Checkout() {
       setLoading(false);
     }
   };
+
+  const { loading: orderLoading, error: orderError } = useSelector(
+    (state) => state.order,
+  );
 
   if (loading) {
     return (
@@ -229,7 +251,9 @@ function Checkout() {
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-500">Subtotal</span>
 
-                  <span className="font-medium text-slate-900">₹{totalAmount}</span>
+                  <span className="font-medium text-slate-900">
+                    ₹{totalAmount}
+                  </span>
                 </div>
 
                 <div className="flex justify-between text-sm">
@@ -242,15 +266,18 @@ function Checkout() {
               <div className="flex items-center justify-between py-5">
                 <span className="font-semibold text-slate-900">Total</span>
 
-                <span className="text-2xl font-bold text-slate-900">₹{totalAmount}</span>
+                <span className="text-2xl font-bold text-slate-900">
+                  ₹{totalAmount}
+                </span>
               </div>
 
               <button
                 type="button"
-                disabled={!selectedAddress}
+                onClick={handlePlaceOrder}
+                disabled={!selectedAddress || orderLoading}
                 className="w-full rounded-xl bg-slate-900 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
               >
-                Place Order
+                {orderLoading ? "Placing Order..." : "Place Order"}
               </button>
 
               <p className="mt-4 text-center text-xs leading-5 text-slate-400">
