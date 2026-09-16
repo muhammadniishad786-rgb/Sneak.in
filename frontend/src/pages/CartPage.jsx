@@ -16,7 +16,7 @@ function CartPage() {
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
-
+  
   const cartItems = cart?.items || [];
 
   const totalAmount = cartItems.reduce(

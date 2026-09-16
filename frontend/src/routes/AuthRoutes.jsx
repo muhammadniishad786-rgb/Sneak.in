@@ -14,6 +14,7 @@ import ProductDetails from "../component/ProductDetails";
 import CartPage from "../pages/CartPage";
 import AddressPage from "../pages/AddressPage";
 import Checkout from "../pages/CheckOut";
+import AddressForm from "../pages/AddressPage";
 
 function AuthRoutes() {
   return (
@@ -35,6 +36,7 @@ function AuthRoutes() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/address" element={<AddressPage /> } />
             <Route path="/checkout" element={<Checkout /> } />
+            {/* <Route path="/address-form" element={<AddressForm /> } /> */}
           </Route>
         </Route>
       </Routes>
