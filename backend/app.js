@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
+import express from "express";
+import cors from "cors";
 
 import { connectDB } from "./src/config/connectDB.js";
 import authRoute from "./src/routes/authRoutes.js";
@@ -11,7 +11,11 @@ import productRoute from "./src/routes/productRoutes.js";
 import cartRoute from "./src/routes/cartRoutes.js"
 import addressRoute from "./src/routes/addressRoutes.js"
 import orderRoute from "./src/routes/orderRoutes.js"
+import paymentRoute from "./src/routes/paymentRoutes.js"
 import path from "path";
+
+console.log(process.env.RAZORPAY_KEY_ID)
+console.log(process.env.RAZORPAY_KEY_SECRET);
 
 const app = express();
 
@@ -27,6 +31,7 @@ app.use("/api", productRoute);
 app.use("/api", cartRoute)
 app.use("/api", addressRoute)
 app.use("/api", orderRoute)
+app.use("/api", paymentRoute)
 
 // Serve uploaded images
 app.use(
