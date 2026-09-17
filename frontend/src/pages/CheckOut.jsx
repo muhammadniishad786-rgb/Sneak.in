@@ -35,9 +35,14 @@ function Checkout() {
 
   const { cart } = useSelector((state) => state.cart);
 
-  const { loading: orderLoading, error: orderError } = useSelector(
-    (state) => state.order,
-  );
+  const {
+    loading: orderLoading,
+    error: orderError,
+  } = useSelector((state) => state.order);
+
+  // ========================================
+  // FETCH DATA
+  // ========================================
 
   useEffect(() => {
     fetchAddresses();
@@ -47,6 +52,7 @@ function Checkout() {
   // ========================================
   // COD ORDER
   // ========================================
+
   const handleCODOrder = async () => {
     if (!selectedAddress) {
       return;
@@ -62,13 +68,17 @@ function Checkout() {
 
       navigate(`/orders/${order._id}`);
     } catch (error) {
-      console.error("Failed to place COD order:", error);
+      console.error(
+        "Failed to place COD order:",
+        error,
+      );
     }
   };
 
   // ========================================
   // RAZORPAY PAYMENT
   // ========================================
+
   const handleRazorpayPayment = async () => {
     if (!selectedAddress) {
       return;
@@ -80,23 +90,31 @@ function Checkout() {
       // ------------------------------------
       // 1. Load Razorpay Checkout
       // ------------------------------------
+
       const isLoaded = await loadRazorpay();
 
       if (!isLoaded) {
-        alert("Razorpay failed to load. Please try again.");
+        alert(
+          "Razorpay failed to load. Please try again.",
+        );
+
+        setPaymentLoading(false);
         return;
       }
 
       // ------------------------------------
       // 2. Create Razorpay Order
       // ------------------------------------
-      const paymentData = await createPaymentOrder(totalAmount);
+
+      const paymentData =
+        await createPaymentOrder(totalAmount);
 
       const razorpayOrder = paymentData.order;
 
       // ------------------------------------
       // 3. Razorpay Checkout Options
       // ------------------------------------
+
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
@@ -115,44 +133,55 @@ function Checkout() {
             // --------------------------------
             // 4. Verify Payment
             // --------------------------------
-            const verification = await verifyPayment({
-              razorpay_order_id:
-                response.razorpay_order_id,
 
-              razorpay_payment_id:
-                response.razorpay_payment_id,
+            const verification =
+              await verifyPayment({
+                razorpay_order_id:
+                  response.razorpay_order_id,
 
-              razorpay_signature:
-                response.razorpay_signature,
-            });
+                razorpay_payment_id:
+                  response.razorpay_payment_id,
+
+                razorpay_signature:
+                  response.razorpay_signature,
+
+                // Send selected address
+                addressId: selectedAddress,
+              });
 
             console.log(
               "Payment verification:",
               verification,
             );
 
+            // --------------------------------
+            // 5. Payment + Order Success
+            // --------------------------------
+
             alert("Payment successful!");
 
-            /*
-              IMPORTANT:
-
-              We are not creating the Sneak.in
-              database order here yet.
-
-              We will add the secure order
-              finalization flow next.
-            */
+            // Navigate to created Sneak.in order
+            navigate(
+              `/orders/${verification.order._id}`,
+            );
           } catch (error) {
             console.error(
               "Payment verification failed:",
               error,
             );
 
-            alert("Payment verification failed.");
+            alert(
+              error.response?.data?.message ||
+                "Payment verification failed.",
+            );
           } finally {
             setPaymentLoading(false);
           }
         },
+
+        // ------------------------------------
+        // Razorpay modal closed
+        // ------------------------------------
 
         modal: {
           ondismiss: function () {
@@ -160,15 +189,22 @@ function Checkout() {
           },
         },
 
+        // ------------------------------------
+        // Razorpay theme
+        // ------------------------------------
+
         theme: {
           color: "#06b6d4",
         },
       };
 
       // ------------------------------------
-      // 5. Open Razorpay Checkout
+      // 6. Open Razorpay Checkout
       // ------------------------------------
-      const razorpay = new window.Razorpay(options);
+
+      const razorpay = new window.Razorpay(
+        options,
+      );
 
       razorpay.open();
     } catch (error) {
@@ -189,6 +225,7 @@ function Checkout() {
   // ========================================
   // PLACE ORDER
   // ========================================
+
   const handlePlaceOrder = () => {
     if (!selectedAddress) {
       return;
@@ -211,20 +248,24 @@ function Checkout() {
   // ========================================
   // CART ITEMS
   // ========================================
+
   const cartItems = cart?.items || [];
 
   // ========================================
   // TOTAL
   // ========================================
+
   const totalAmount = cartItems.reduce(
     (total, item) =>
-      total + item.product.price * item.quantity,
+      total +
+      item.product.price * item.quantity,
     0,
   );
 
   // ========================================
   // ADD ADDRESS
   // ========================================
+
   const handleAddress = () => {
     navigate("/address");
   };
@@ -232,18 +273,22 @@ function Checkout() {
   // ========================================
   // FETCH ADDRESSES
   // ========================================
+
   const fetchAddresses = async () => {
     try {
       const data = await getAddress();
 
       setAddresses(data.addresses);
 
-      const defaultAddress = data.addresses.find(
-        (address) => address.isDefault,
-      );
+      const defaultAddress =
+        data.addresses.find(
+          (address) => address.isDefault,
+        );
 
       if (defaultAddress) {
-        setSelectedAddress(defaultAddress._id);
+        setSelectedAddress(
+          defaultAddress._id,
+        );
       }
     } catch (error) {
       console.error(
@@ -258,23 +303,30 @@ function Checkout() {
   // ========================================
   // LOADING
   // ========================================
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl animate-pulse">
+
           <div className="mb-10">
             <div className="h-4 w-40 rounded bg-slate-200" />
+
             <div className="mt-3 h-10 w-56 rounded bg-slate-200" />
+
             <div className="mt-3 h-4 w-96 max-w-full rounded bg-slate-200" />
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
+
             <div className="space-y-6 lg:col-span-2">
               <div className="h-80 rounded-2xl bg-white" />
+
               <div className="h-16 rounded-2xl bg-white" />
             </div>
 
             <div className="h-96 rounded-2xl bg-white" />
+
           </div>
         </div>
       </div>
@@ -283,16 +335,23 @@ function Checkout() {
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+
       <div className="mx-auto max-w-7xl">
 
-        {/* HEADER */}
+        {/* ========================================
+            HEADER
+        ======================================== */}
+
         <div className="mb-8">
+
           <div className="mb-3 flex items-center gap-2 text-sky-500">
+
             <FiShoppingBag size={18} />
 
             <span className="text-xs font-bold uppercase tracking-[0.18em]">
               Sneak.in
             </span>
+
           </div>
 
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -303,30 +362,44 @@ function Checkout() {
             Complete your order by selecting your delivery
             address and reviewing your order details.
           </p>
+
         </div>
 
-        {/* CHECKOUT LAYOUT */}
+        {/* ========================================
+            CHECKOUT LAYOUT
+        ======================================== */}
+
         <div className="grid items-start gap-6 lg:grid-cols-3 lg:gap-8">
 
-          {/* LEFT CONTENT */}
+          {/* ========================================
+              LEFT CONTENT
+          ======================================== */}
+
           <div className="space-y-6 lg:col-span-2">
 
-            {/* DELIVERY ADDRESS */}
+            {/* ========================================
+                DELIVERY ADDRESS
+            ======================================== */}
+
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
               <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
+
                 <div className="flex items-start justify-between gap-4">
 
                   <div className="flex gap-3">
 
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50">
+
                       <FiMapPin
                         size={19}
                         className="text-sky-500"
                       />
+
                     </div>
 
                     <div>
+
                       <h2 className="font-bold text-slate-900">
                         Delivery Address
                       </h2>
@@ -334,20 +407,25 @@ function Checkout() {
                       <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
                         Choose where you want your order delivered.
                       </p>
+
                     </div>
 
                   </div>
 
                   {addresses.length > 0 && (
                     <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 sm:block">
+
                       {addresses.length}{" "}
+
                       {addresses.length === 1
                         ? "Address"
                         : "Addresses"}
+
                     </span>
                   )}
 
                 </div>
+
               </div>
 
               <div className="p-5 sm:p-6">
@@ -357,10 +435,12 @@ function Checkout() {
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center">
 
                     <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm">
+
                       <FiMapPin
                         size={24}
                         className="text-slate-400"
                       />
+
                     </div>
 
                     <h3 className="mt-4 font-bold text-slate-900">
@@ -389,14 +469,17 @@ function Checkout() {
                     {addresses.map((address) => {
 
                       const isSelected =
-                        selectedAddress === address._id;
+                        selectedAddress ===
+                        address._id;
 
                       return (
                         <button
                           key={address._id}
                           type="button"
                           onClick={() =>
-                            setSelectedAddress(address._id)
+                            setSelectedAddress(
+                              address._id,
+                            )
                           }
                           className={`group w-full rounded-2xl border p-4 text-left transition-all duration-200 sm:p-5 ${
                             isSelected
@@ -414,6 +497,7 @@ function Checkout() {
                                   : "border-slate-300 bg-white group-hover:border-slate-400"
                               }`}
                             >
+
                               {isSelected && (
                                 <FiCheck
                                   size={12}
@@ -421,6 +505,7 @@ function Checkout() {
                                   className="text-white"
                                 />
                               )}
+
                             </div>
 
                             <div className="min-w-0 flex-1">
@@ -451,11 +536,15 @@ function Checkout() {
                                 />
 
                                 <p className="text-sm leading-6 text-slate-600">
+
                                   {address.addressLine}
+
                                   <br />
+
                                   {address.city},{" "}
                                   {address.state} -{" "}
                                   {address.pincode}
+
                                 </p>
 
                               </div>
@@ -475,41 +564,52 @@ function Checkout() {
                     })}
 
                   </div>
-
                 )}
 
               </div>
 
             </section>
 
-            {/* ADD ADDRESS */}
+            {/* ========================================
+                ADD ADDRESS
+            ======================================== */}
+
             {addresses.length > 0 && (
               <button
                 type="button"
                 onClick={handleAddress}
                 className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-4 text-sm font-semibold text-slate-600 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-600"
               >
+
                 <FiPlus
                   size={18}
                   className="transition-transform group-hover:rotate-90"
                 />
+
                 Add New Address
+
               </button>
             )}
 
-            {/* PAYMENT METHOD */}
+            {/* ========================================
+                PAYMENT METHOD
+            ======================================== */}
+
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
 
               <div className="flex items-start gap-3">
 
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100">
+
                   <FiCreditCard
                     size={19}
                     className="text-slate-700"
                   />
+
                 </div>
 
                 <div>
+
                   <h2 className="font-bold text-slate-900">
                     Payment Method
                   </h2>
@@ -517,16 +617,22 @@ function Checkout() {
                   <p className="mt-1 text-xs text-slate-500 sm:text-sm">
                     Choose how you want to pay for your order.
                   </p>
+
                 </div>
 
               </div>
 
               <div className="mt-5 space-y-3">
 
-                {/* COD */}
+                {/* ========================================
+                    COD
+                ======================================== */}
+
                 <button
                   type="button"
-                  onClick={() => setPaymentMethod("COD")}
+                  onClick={() =>
+                    setPaymentMethod("COD")
+                  }
                   className={`w-full rounded-xl border p-4 text-left transition ${
                     paymentMethod === "COD"
                       ? "border-sky-300 bg-sky-50/60 ring-1 ring-sky-200"
@@ -537,10 +643,12 @@ function Checkout() {
                   <div className="flex items-center gap-4">
 
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
+
                       <FiTruck
                         size={19}
                         className="text-sky-500"
                       />
+
                     </div>
 
                     <div className="flex-1">
@@ -562,6 +670,7 @@ function Checkout() {
                           : "border-2 border-slate-300 bg-white"
                       }`}
                     >
+
                       {paymentMethod === "COD" && (
                         <FiCheck
                           size={12}
@@ -569,17 +678,23 @@ function Checkout() {
                           className="text-white"
                         />
                       )}
+
                     </div>
 
                   </div>
 
                 </button>
 
-                {/* RAZORPAY */}
+                {/* ========================================
+                    RAZORPAY
+                ======================================== */}
+
                 <button
                   type="button"
                   onClick={() =>
-                    setPaymentMethod("RAZORPAY")
+                    setPaymentMethod(
+                      "RAZORPAY",
+                    )
                   }
                   className={`w-full rounded-xl border p-4 text-left transition ${
                     paymentMethod === "RAZORPAY"
@@ -591,10 +706,12 @@ function Checkout() {
                   <div className="flex items-center gap-4">
 
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
+
                       <FiCreditCard
                         size={19}
                         className="text-sky-500"
                       />
+
                     </div>
 
                     <div className="flex-1">
@@ -611,18 +728,22 @@ function Checkout() {
 
                     <div
                       className={`flex h-5 w-5 items-center justify-center rounded-full ${
-                        paymentMethod === "RAZORPAY"
+                        paymentMethod ===
+                        "RAZORPAY"
                           ? "bg-sky-500"
                           : "border-2 border-slate-300 bg-white"
                       }`}
                     >
-                      {paymentMethod === "RAZORPAY" && (
+
+                      {paymentMethod ===
+                        "RAZORPAY" && (
                         <FiCheck
                           size={12}
                           strokeWidth={3}
                           className="text-white"
                         />
                       )}
+
                     </div>
 
                   </div>
@@ -632,23 +753,30 @@ function Checkout() {
               </div>
 
             </section>
+
           </div>
 
-          {/* RIGHT ORDER SUMMARY */}
+          {/* ========================================
+              RIGHT ORDER SUMMARY
+          ======================================== */}
+
           <aside className="lg:sticky lg:top-6">
 
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
               {/* SUMMARY HEADER */}
+
               <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
 
                 <div className="flex items-center gap-3">
 
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
+
                     <FiShoppingBag
                       size={18}
                       className="text-white"
                     />
+
                   </div>
 
                   <div>
@@ -671,6 +799,7 @@ function Checkout() {
               </div>
 
               {/* PRODUCTS */}
+
               <div className="max-h-72 overflow-y-auto px-5 py-5 sm:px-6">
 
                 <div className="space-y-4">
@@ -692,7 +821,9 @@ function Checkout() {
                               ? item.product.image
                               : `https://sneak-in-backend.onrender.com${item.product?.image}`
                           }
-                          alt={item.product?.name}
+                          alt={
+                            item.product?.name
+                          }
                           className="h-full w-full object-cover"
                         />
 
@@ -714,7 +845,9 @@ function Checkout() {
                           {(
                             item.product?.price *
                             item.quantity
-                          ).toLocaleString("en-IN")}
+                          ).toLocaleString(
+                            "en-IN",
+                          )}
                         </p>
 
                       </div>
@@ -728,6 +861,7 @@ function Checkout() {
               </div>
 
               {/* PRICE DETAILS */}
+
               <div className="border-t border-slate-100 px-5 py-5 sm:px-6">
 
                 <div className="space-y-3">
@@ -787,6 +921,7 @@ function Checkout() {
                 </div>
 
                 {/* ERROR */}
+
                 {orderError && (
                   <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
                     {orderError}
@@ -794,6 +929,7 @@ function Checkout() {
                 )}
 
                 {/* PLACE ORDER */}
+
                 <button
                   type="button"
                   onClick={handlePlaceOrder}
@@ -806,17 +942,20 @@ function Checkout() {
                   className="group mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-4 text-sm font-bold text-white shadow-sm transition-all hover:bg-slate-800 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
 
-                  {orderLoading || paymentLoading ? (
+                  {orderLoading ||
+                  paymentLoading ? (
                     <>
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
 
-                      {paymentMethod === "RAZORPAY"
+                      {paymentMethod ===
+                      "RAZORPAY"
                         ? "Opening Payment..."
                         : "Placing Order..."}
                     </>
                   ) : (
                     <>
-                      {paymentMethod === "RAZORPAY"
+                      {paymentMethod ===
+                      "RAZORPAY"
                         ? "Pay Now"
                         : "Place Order"}
 
@@ -846,18 +985,24 @@ function Checkout() {
             </div>
 
             {/* SECURE CHECKOUT */}
+
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-400">
+
               <FiCheck
                 size={14}
                 className="text-emerald-500"
               />
+
               Secure checkout
+
             </div>
 
           </aside>
 
         </div>
+
       </div>
+
     </div>
   );
 }
