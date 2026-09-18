@@ -1,4 +1,7 @@
-import Product from "../models/productModel.js";
+import Product from "../../models/productModel.js";
+
+
+
 
 // Get all products for admin
 export const getAdminProducts = async (req, res) => {

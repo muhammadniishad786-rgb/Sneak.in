@@ -12,6 +12,8 @@ import cartRoute from "./src/routes/cartRoutes.js"
 import addressRoute from "./src/routes/addressRoutes.js"
 import orderRoute from "./src/routes/orderRoutes.js"
 import paymentRoute from "./src/routes/paymentRoutes.js"
+
+import adminProductRoute from "./src/routes/admin/adminProductRoute.js"
 import path from "path";
 
 console.log(process.env.RAZORPAY_KEY_ID)
@@ -32,6 +34,8 @@ app.use("/api", cartRoute)
 app.use("/api", addressRoute)
 app.use("/api", orderRoute)
 app.use("/api", paymentRoute)
+// admin routes
+app.use("/api", adminProductRoute)
 
 // Serve uploaded images
 app.use(
