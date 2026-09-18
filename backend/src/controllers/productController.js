@@ -5,6 +5,9 @@ export const createProduct = async (req, res) => {
     const { name, description, price, category, brand, sizes, stock } =
       req.body;
 
+    console.log("REQ BODY:", req.body);
+    console.log("BRAND:", req.body.brand);
+    console.log("REQ FILE:", req.file);
     if (!req.file) {
       return res.status(400).json({
         message: "Product image is required",
@@ -41,8 +44,8 @@ export const getProducts = async (req, res) => {
     // Get the search value from the URL query
     // Example: /api/product?search=nike → "nike"
     const search = req.query.search;
-    const category = req.query.category
-    const sort = req.query.sort
+    const category = req.query.category;
+    const sort = req.query.sort;
 
     // Create an empty object to build the MongoDB query
     const query = {};
@@ -60,8 +63,8 @@ export const getProducts = async (req, res) => {
       };
     }
 
-    if(category){
-      query.category = category
+    if (category) {
+      query.category = category;
     }
 
     // Filter by category

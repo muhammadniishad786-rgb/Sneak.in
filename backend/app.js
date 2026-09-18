@@ -6,7 +6,6 @@ import cors from "cors";
 import { connectDB } from "./src/config/connectDB.js";
 import authRoute from "./src/routes/authRoutes.js";
 import userRoute from "./src/routes/userRoutes.js";
-import adminRoute from "./src/routes/adminRoutes.js";
 import productRoute from "./src/routes/productRoutes.js";
 import cartRoute from "./src/routes/cartRoutes.js"
 import addressRoute from "./src/routes/addressRoutes.js"
@@ -28,7 +27,6 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api", userRoute);
-app.use("/api", adminRoute);
 app.use("/api", productRoute);
 app.use("/api", cartRoute)
 app.use("/api", addressRoute)
