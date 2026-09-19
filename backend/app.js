@@ -15,6 +15,7 @@ import paymentRoute from "./src/routes/paymentRoutes.js"
 import adminProductRoute from "./src/routes/admin/adminProductRoute.js"
 import adminOrderRoute from "./src/routes/admin/adminOrderRoutes.js"
 import adminUserRoute from "./src/routes/admin/adminUserRoutes.js"
+import adminDashboardRoute from "./src/routes/admin/adminDashboardRoutes.js"
 import path from "path";
 
 console.log(process.env.RAZORPAY_KEY_ID)
@@ -38,6 +39,7 @@ app.use("/api", paymentRoute)
 app.use("/api", adminProductRoute)
 app.use("/api", adminOrderRoute)
 app.use("/api", adminUserRoute)
+app.use("/api", adminDashboardRoute)
 
 // Serve uploaded images
 app.use(
