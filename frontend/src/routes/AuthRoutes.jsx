@@ -79,17 +79,15 @@ import AdminLayout from "../layouts/AdminLayout";
 // Protected Route
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
-
+import AdminRoute from "./AdminRoutes";
 
 function AuthRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* ================= PUBLIC + MAIN LAYOUT ================= */}
 
         <Route element={<MainLayout />}>
-
           <Route path="/" element={<Home />} />
 
           <Route path="/register" element={<Register />} />
@@ -99,15 +97,11 @@ function AuthRoutes() {
           {/* ================= PROTECTED USER ROUTES ================= */}
 
           <Route element={<ProtectedRoutes />}>
-
             <Route path="/profile" element={<Profile />} />
 
             <Route path="/products" element={<Products />} />
 
-            <Route
-              path="/product/:id"
-              element={<ProductDetails />}
-            />
+            <Route path="/product/:id" element={<ProductDetails />} />
 
             <Route path="/cart" element={<CartPage />} />
 
@@ -115,42 +109,26 @@ function AuthRoutes() {
 
             <Route path="/checkout" element={<Checkout />} />
 
-            <Route
-              path="/orders/:id"
-              element={<OrderStatus />}
-            />
+            <Route path="/orders/:id" element={<OrderStatus />} />
 
-            <Route
-              path="/orders"
-              element={<OrderHistory />}
-            />
-
+            <Route path="/orders" element={<OrderHistory />} />
           </Route>
-
         </Route>
-
 
         {/* ================= ADMIN ROUTES ================= */}
 
         <Route element={<ProtectedRoutes />}>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              {/* /admin */}
+              <Route index element={<AdminDashboard />} />
 
-          <Route path="/admin" element={<AdminLayout />}>
+              {/* /admin/products */}
+              <Route path="products" element={<CreateProduct />} />
 
-            {/* /admin */}
-            <Route
-              index
-              element={<AdminDashboard />}
-            />
+              {/* We'll add these pages later */}
 
-            {/* /admin/products */}
-            <Route
-              path="products"
-              element={<CreateProduct />}
-            />
-
-            {/* We'll add these pages later */}
-
-            {/* 
+              {/* 
             <Route
               path="orders"
               element={<AdminOrders />}
@@ -166,11 +144,9 @@ function AuthRoutes() {
               element={<AdminProfile />}
             />
             */}
-
+            </Route>
           </Route>
-
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

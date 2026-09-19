@@ -51,15 +51,25 @@ function Login() {
     try {
       setLoading(true);
 
+      // Call login API
       const response = await loginUser(formData);
 
-      console.log(response.data);
+      console.log("Login response:", response.data);
 
-      // Get data from Axios response
+      // Get token and role from backend response
       const { token, role } = response.data;
 
-      // Store token
+      // Make sure token exists
+      if (!token) {
+        setError("Login failed. Token not received.");
+        return;
+      }
+
+      // Store authentication information
       localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+      console.log("Logged in role:", role);
 
       // Redirect based on role
       if (role === "admin") {
@@ -68,7 +78,7 @@ function Login() {
         navigate("/profile");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
 
       setError(
         error.response?.data?.message ||
@@ -182,7 +192,9 @@ function Login() {
 
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={() =>
+                    setShowPassword(!showPassword)
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition"
                   aria-label={
                     showPassword
@@ -213,6 +225,7 @@ function Login() {
           <div className="mt-7 border-t border-gray-100 pt-6 text-center">
             <p className="text-sm text-gray-500">
               Don't have an account?{" "}
+
               <Link
                 to="/register"
                 className="font-semibold text-cyan-600 hover:text-cyan-700"
