@@ -26,6 +26,8 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
 import AdminRoute from "./AdminRoutes";
 import EditProduct from "../pages/admin/EditProducts";
+import AdminOrders from "../pages/admin/AdminOrders";
+import AdminOrderDetails from "../pages/admin/OrderDetails";
 
 function AuthRoutes() {
   return (
@@ -81,18 +83,14 @@ function AuthRoutes() {
               {/* /admin/products/edit */}
               <Route path="products/:id/edit" element={<EditProduct />} />
 
+              {/* ================= ORDERS ================= */}
+              <Route path="orders" element={<AdminOrders />} />
+
+              <Route path="orders/:id" element={<AdminOrderDetails />} />
+
               {/* ================= FUTURE ROUTES ================= */}
 
               {/*
-              <Route
-                path="products/:id/edit"
-                element={<EditProduct />}
-              />
-
-              <Route
-                path="orders"
-                element={<AdminOrders />}
-              />
 
               <Route
                 path="orders/:id"
