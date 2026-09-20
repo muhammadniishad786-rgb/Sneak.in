@@ -20,3 +20,11 @@ export const updateAdminProduct = async (id, data) => {
 
   return response.data;
 };
+
+export const deleteAdminProduct = async (id) => {
+    const response = await api.delete(
+        `/admin/products/${id}`
+    );
+
+    return response.data
+}

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchAdminProductById,
   editAdminProduct,
+  deleteAdminProduct,
   clearSelectedProduct,
 } from "../../redux/features/adminProductSlice";
 
@@ -17,6 +18,7 @@ function EditProduct() {
     selectedProduct,
     productLoading,
     updateLoading,
+    deleteLoading,
     error,
   } = useSelector((state) => state.adminProducts);
 
@@ -47,13 +49,11 @@ function EditProduct() {
     if (selectedProduct) {
       setFormData({
         name: selectedProduct.name || "",
-        description:
-          selectedProduct.description || "",
+        description: selectedProduct.description || "",
         price: selectedProduct.price || "",
         category: selectedProduct.category || "",
         brand: selectedProduct.brand || "",
-        sizes:
-          selectedProduct.sizes?.join(",") || "",
+        sizes: selectedProduct.sizes?.join(",") || "",
         stock: selectedProduct.stock ?? "",
       });
     }
@@ -74,7 +74,7 @@ function EditProduct() {
     setImage(e.target.files[0]);
   };
 
-  // Submit
+  // Update product
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,10 +83,7 @@ function EditProduct() {
     const data = new FormData();
 
     data.append("name", formData.name);
-    data.append(
-      "description",
-      formData.description
-    );
+    data.append("description", formData.description);
     data.append("price", formData.price);
     data.append("category", formData.category);
     data.append("brand", formData.brand);
@@ -106,17 +103,38 @@ function EditProduct() {
         })
       ).unwrap();
 
-      setMessage(
-        "Product updated successfully!"
-      );
+      setMessage("Product updated successfully!");
 
       setTimeout(() => {
         navigate("/admin/products");
       }, 1000);
     } catch (error) {
-      setMessage(
-        error || "Failed to update product"
-      );
+      setMessage(error || "Failed to update product");
+    }
+  };
+
+  // Delete product
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${selectedProduct.name}"?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setMessage("");
+
+    try {
+      await dispatch(deleteAdminProduct(id)).unwrap();
+
+      setMessage("Product deleted successfully!");
+
+      setTimeout(() => {
+        navigate("/admin/products");
+      }, 800);
+    } catch (error) {
+      setMessage(error || "Failed to delete product");
     }
   };
 
@@ -125,10 +143,8 @@ function EditProduct() {
     return (
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="mx-auto max-w-3xl">
-
           <div className="mb-8">
             <div className="h-8 w-48 animate-pulse rounded bg-slate-200" />
-
             <div className="mt-3 h-4 w-72 animate-pulse rounded bg-slate-200" />
           </div>
 
@@ -139,7 +155,6 @@ function EditProduct() {
             <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
             <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
           </div>
-
         </div>
       </div>
     );
@@ -150,7 +165,6 @@ function EditProduct() {
     return (
       <div className="min-h-screen bg-slate-50 p-6">
         <div className="mx-auto max-w-3xl">
-
           <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
             <h2 className="text-xl font-semibold text-slate-900">
               Product not found
@@ -161,15 +175,12 @@ function EditProduct() {
             </p>
 
             <button
-              onClick={() =>
-                navigate("/admin/products")
-              }
+              onClick={() => navigate("/admin/products")}
               className="mt-6 rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-cyan-500"
             >
               Back to Products
             </button>
           </div>
-
         </div>
       </div>
     );
@@ -183,9 +194,7 @@ function EditProduct() {
         <div className="mb-8">
           <button
             type="button"
-            onClick={() =>
-              navigate("/admin/products")
-            }
+            onClick={() => navigate("/admin/products")}
             className="mb-4 text-sm font-medium text-slate-500 hover:text-slate-900"
           >
             ← Back to Products
@@ -212,7 +221,6 @@ function EditProduct() {
           onSubmit={handleSubmit}
           className="space-y-6 rounded-2xl bg-white p-6 shadow-sm"
         >
-
           {/* Product Name */}
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700">
@@ -247,7 +255,6 @@ function EditProduct() {
 
           {/* Price + Stock */}
           <div className="grid gap-5 sm:grid-cols-2">
-
             <div>
               <label className="mb-2 block text-sm font-medium text-slate-700">
                 Price
@@ -279,12 +286,10 @@ function EditProduct() {
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100"
               />
             </div>
-
           </div>
 
           {/* Category + Brand */}
           <div className="grid gap-5 sm:grid-cols-2">
-
             <div>
               <label className="mb-2 block text-sm font-medium text-slate-700">
                 Category
@@ -314,7 +319,6 @@ function EditProduct() {
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100"
               />
             </div>
-
           </div>
 
           {/* Sizes */}
@@ -347,9 +351,7 @@ function EditProduct() {
 
               <img
                 src={
-                  selectedProduct.image.startsWith(
-                    "http"
-                  )
+                  selectedProduct.image.startsWith("http")
                     ? selectedProduct.image
                     : `https://sneak-in-backend.onrender.com${selectedProduct.image}`
                 }
@@ -377,10 +379,10 @@ function EditProduct() {
             </p>
           </div>
 
-          {/* Submit */}
+          {/* Update Button */}
           <button
             type="submit"
-            disabled={updateLoading}
+            disabled={updateLoading || deleteLoading}
             className="w-full rounded-xl bg-slate-950 px-5 py-3 font-semibold text-white transition hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {updateLoading
@@ -388,6 +390,27 @@ function EditProduct() {
               : "Update Product"}
           </button>
 
+          {/* Delete Section */}
+          <div className="border-t border-slate-200 pt-6">
+            <h3 className="text-sm font-semibold text-slate-900">
+              Danger Zone
+            </h3>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Deleting this product is permanent and cannot be undone.
+            </p>
+
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleteLoading || updateLoading}
+              className="mt-4 w-full rounded-xl border border-red-200 bg-red-50 px-5 py-3 font-semibold text-red-600 transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {deleteLoading
+                ? "Deleting Product..."
+                : "Delete Product"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

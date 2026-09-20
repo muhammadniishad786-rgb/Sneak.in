@@ -419,6 +419,11 @@ function AdminProducts() {
 
                         <button
                           title="Delete product"
+                          onClick={() =>
+                            navigate(
+                              `/admin/products/${product._id}/edit`
+                            )
+                          }
                           className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-100 text-red-500 transition hover:bg-red-50 hover:text-red-600"
                         >
                           <Trash2 size={16} />
