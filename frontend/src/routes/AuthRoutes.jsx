@@ -30,6 +30,7 @@ import AdminOrders from "../pages/admin/AdminOrders";
 import AdminOrderDetails from "../pages/admin/OrderDetails";
 import AdminUsers from "../pages/admin/AdminUser";
 import AdminUserDetails from "../pages/admin/AdminUserDetails";
+import AdminProfile from "../pages/admin/AdminProfile";
 
 function AuthRoutes() {
   return (
@@ -90,9 +91,12 @@ function AuthRoutes() {
 
               <Route path="orders/:id" element={<AdminOrderDetails />} />
 
-              {/* ================= ORDERS ================= */}
+              {/* ================= ADMIN USER ================= */}
               <Route path="users" element={<AdminUsers />} />
               <Route path="users/:id" element={<AdminUserDetails />} />
+
+               {/* ================= ADMIN PROFILE ================= */}
+               <Route path="profile" element={<AdminProfile />} />
 
               {/* ================= FUTURE ROUTES ================= */}
 
