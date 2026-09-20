@@ -124,12 +124,20 @@ export const getProductById = async (req, res) => {
   }
 };
 
+// to update products
 export const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const { name, description, price, category, brand, sizes, stock } =
-      req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      brand,
+      sizes,
+      stock,
+    } = req.body;
 
     const product = await Product.findById(productId);
 
@@ -144,10 +152,16 @@ export const updateProduct = async (req, res) => {
     product.price = price;
     product.category = category;
     product.brand = brand;
-    product.sizes = sizes.split(",").map(Number);
+
+    if (sizes) {
+      product.sizes = sizes
+        .split(",")
+        .map((size) => Number(size.trim()));
+    }
+
     product.stock = stock;
 
-    // Update image only if a new image was uploaded
+    // Update image only when a new image is uploaded
     if (req.file) {
       product.image = `/uploads/${req.file.filename}`;
     }
@@ -159,12 +173,15 @@ export const updateProduct = async (req, res) => {
       product,
     });
   } catch (error) {
+    console.error("Update product error:", error);
+
     res.status(500).json({
       message: "Server error",
       error: error.message,
     });
   }
 };
+
 
 export const deleteProduct = async (req, res) => {
   try {

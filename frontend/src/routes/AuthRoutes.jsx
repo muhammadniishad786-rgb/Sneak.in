@@ -15,7 +15,7 @@ import OrderHistory from "../pages/OrderHistory";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import AdminProducts from "../pages/admin/adminProducts"
+import AdminProducts from "../pages/admin/adminProducts";
 import CreateProduct from "../pages/admin/CreateProducts";
 
 // Layouts
@@ -25,16 +25,15 @@ import AdminLayout from "../layouts/AdminLayout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
 import AdminRoute from "./AdminRoutes";
+import EditProduct from "../pages/admin/EditProducts";
 
 function AuthRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* ================= PUBLIC + MAIN LAYOUT ================= */}
 
         <Route element={<MainLayout />}>
-
           <Route path="/" element={<Home />} />
 
           <Route path="/register" element={<Register />} />
@@ -44,83 +43,43 @@ function AuthRoutes() {
           {/* ================= PROTECTED USER ROUTES ================= */}
 
           <Route element={<ProtectedRoutes />}>
+            <Route path="/profile" element={<Profile />} />
 
-            <Route
-              path="/profile"
-              element={<Profile />}
-            />
+            <Route path="/products" element={<Products />} />
 
-            <Route
-              path="/products"
-              element={<Products />}
-            />
+            <Route path="/product/:id" element={<ProductDetails />} />
 
-            <Route
-              path="/product/:id"
-              element={<ProductDetails />}
-            />
+            <Route path="/cart" element={<CartPage />} />
 
-            <Route
-              path="/cart"
-              element={<CartPage />}
-            />
+            <Route path="/address" element={<AddressPage />} />
 
-            <Route
-              path="/address"
-              element={<AddressPage />}
-            />
+            <Route path="/checkout" element={<Checkout />} />
 
-            <Route
-              path="/checkout"
-              element={<Checkout />}
-            />
+            <Route path="/orders/:id" element={<OrderStatus />} />
 
-            <Route
-              path="/orders/:id"
-              element={<OrderStatus />}
-            />
-
-            <Route
-              path="/orders"
-              element={<OrderHistory />}
-            />
-
+            <Route path="/orders" element={<OrderHistory />} />
           </Route>
-
         </Route>
 
         {/* ================= ADMIN ROUTES ================= */}
 
         <Route element={<ProtectedRoutes />}>
-
           <Route element={<AdminRoute />}>
-
-            <Route
-              path="/admin"
-              element={<AdminLayout />}
-            >
-
+            <Route path="/admin" element={<AdminLayout />}>
               {/* ================= DASHBOARD ================= */}
 
               {/* /admin */}
-              <Route
-                index
-                element={<AdminDashboard />}
-              />
+              <Route index element={<AdminDashboard />} />
 
               {/* ================= PRODUCTS ================= */}
 
               {/* /admin/products */}
-              <Route
-                path="products"
-                element={<AdminProducts />}
-              />
+              <Route path="products" element={<AdminProducts />} />
 
               {/* /admin/products/create */}
-              <Route
-                path="products/create"
-                element={<CreateProduct />}
-              />
+              <Route path="products/create" element={<CreateProduct />} />
+              {/* /admin/products/edit */}
+              <Route path="products/:id/edit" element={<EditProduct />} />
 
               {/* ================= FUTURE ROUTES ================= */}
 
@@ -150,13 +109,9 @@ function AuthRoutes() {
                 element={<AdminProfile />}
               />
               */}
-
             </Route>
-
           </Route>
-
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

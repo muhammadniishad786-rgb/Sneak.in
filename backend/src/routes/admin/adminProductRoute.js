@@ -35,6 +35,7 @@ router.put(
     "/admin/products/:id",
     authMiddleware,
     adminMiddleware,
+    upload.single("image"),
     updateProduct
 )
 
