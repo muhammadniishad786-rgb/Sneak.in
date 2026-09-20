@@ -1,59 +1,3 @@
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-// import Register from "../pages/Register";
-// import Login from "../pages/Login";
-// import Home from "../pages/Home";
-// import Profile from "../pages/Profile";
-// import Admin from "../pages/Admin";
-
-// import ProtectedRoutes from "./ProtectedRoutes";
-// import MainLayout from "../layouts/MainLayout";
-// import Products from "../pages/Products";
-// import CreateProduct from "../pages/admin/CreateProducts";
-// import ProductDetails from "../component/ProductDetails";
-// import CartPage from "../pages/CartPage";
-// import AddressPage from "../pages/AddressPage";
-// import Checkout from "../pages/CheckOut";
-// import AddressForm from "../pages/AddressPage";
-// import OrderStatus from "../pages/OrderStatus";
-// import OrderHistory from "../pages/OrderHistory";
-// import AdminDashboard from "../pages/admin/AdminDashboard";
-
-// function AuthRoutes() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route element={<MainLayout />}>
-//           <Route path="/" element={<Home />} />
-
-//           <Route path="/register" element={<Register />} />
-
-//           <Route path="/login" element={<Login />} />
-
-//           {/* Protected Routes */}
-//           <Route element={<ProtectedRoutes />}>
-//             <Route path="/profile" element={<Profile />} />
-//             <Route path="/admin" element={<CreateProduct />} />
-//             <Route path="/products" element={<Products />} />
-//             <Route path="//product/:id" element={<ProductDetails /> } />
-//             <Route path="/cart" element={<CartPage />} />
-//             <Route path="/address" element={<AddressPage /> } />
-//             <Route path="/checkout" element={<Checkout /> } />
-//             <Route path="/orders/:id" element={<OrderStatus /> } />
-//             <Route path="/orders" element={<OrderHistory /> } />
-
-//             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-//             {/* <Route path="/address-form" element={<AddressForm /> } /> */}
-
-//           </Route>
-//         </Route>
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default AuthRoutes;
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
@@ -71,12 +15,13 @@ import OrderHistory from "../pages/OrderHistory";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminProducts from "../pages/admin/adminProducts"
 import CreateProduct from "../pages/admin/CreateProducts";
 
 // Layouts
 import AdminLayout from "../layouts/AdminLayout";
 
-// Protected Route
+// Protected Routes
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "../layouts/MainLayout";
 import AdminRoute from "./AdminRoutes";
@@ -85,9 +30,11 @@ function AuthRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+
         {/* ================= PUBLIC + MAIN LAYOUT ================= */}
 
         <Route element={<MainLayout />}>
+
           <Route path="/" element={<Home />} />
 
           <Route path="/register" element={<Register />} />
@@ -97,56 +44,119 @@ function AuthRoutes() {
           {/* ================= PROTECTED USER ROUTES ================= */}
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/profile" element={<Profile />} />
 
-            <Route path="/products" element={<Products />} />
+            <Route
+              path="/profile"
+              element={<Profile />}
+            />
 
-            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route
+              path="/products"
+              element={<Products />}
+            />
 
-            <Route path="/cart" element={<CartPage />} />
+            <Route
+              path="/product/:id"
+              element={<ProductDetails />}
+            />
 
-            <Route path="/address" element={<AddressPage />} />
+            <Route
+              path="/cart"
+              element={<CartPage />}
+            />
 
-            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/address"
+              element={<AddressPage />}
+            />
 
-            <Route path="/orders/:id" element={<OrderStatus />} />
+            <Route
+              path="/checkout"
+              element={<Checkout />}
+            />
 
-            <Route path="/orders" element={<OrderHistory />} />
+            <Route
+              path="/orders/:id"
+              element={<OrderStatus />}
+            />
+
+            <Route
+              path="/orders"
+              element={<OrderHistory />}
+            />
+
           </Route>
+
         </Route>
 
         {/* ================= ADMIN ROUTES ================= */}
 
         <Route element={<ProtectedRoutes />}>
+
           <Route element={<AdminRoute />}>
-            <Route path="/admin" element={<AdminLayout />}>
+
+            <Route
+              path="/admin"
+              element={<AdminLayout />}
+            >
+
+              {/* ================= DASHBOARD ================= */}
+
               {/* /admin */}
-              <Route index element={<AdminDashboard />} />
+              <Route
+                index
+                element={<AdminDashboard />}
+              />
+
+              {/* ================= PRODUCTS ================= */}
 
               {/* /admin/products */}
-              <Route path="products" element={<CreateProduct />} />
+              <Route
+                path="products"
+                element={<AdminProducts />}
+              />
 
-              {/* We'll add these pages later */}
+              {/* /admin/products/create */}
+              <Route
+                path="products/create"
+                element={<CreateProduct />}
+              />
 
-              {/* 
-            <Route
-              path="orders"
-              element={<AdminOrders />}
-            />
+              {/* ================= FUTURE ROUTES ================= */}
 
-            <Route
-              path="users"
-              element={<AdminUsers />}
-            />
+              {/*
+              <Route
+                path="products/:id/edit"
+                element={<EditProduct />}
+              />
 
-            <Route
-              path="profile"
-              element={<AdminProfile />}
-            />
-            */}
+              <Route
+                path="orders"
+                element={<AdminOrders />}
+              />
+
+              <Route
+                path="orders/:id"
+                element={<AdminOrderDetails />}
+              />
+
+              <Route
+                path="users"
+                element={<AdminUsers />}
+              />
+
+              <Route
+                path="profile"
+                element={<AdminProfile />}
+              />
+              */}
+
             </Route>
+
           </Route>
+
         </Route>
+
       </Routes>
     </BrowserRouter>
   );
