@@ -29,20 +29,29 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 6. Find the selected address
+    // 6. Check product stock
+    for (const item of cart.items) {
+      if (item.product.stock < item.quantity) {
+        return res.status(400).json({
+          message: `Only ${item.product.stock} units of ${item.product.name} are available`,
+        });
+      }
+    }
+
+    // 7. Find the selected address
     const address = await Address.findOne({
       _id: addressId,
       user: userId,
     });
 
-    // 7. Check whether address exists
+    // 8. Check whether address exists
     if (!address) {
       return res.status(404).json({
         message: "Address not found",
       });
     }
 
-    // 8. Convert cart items into order items
+    // 9. Convert cart items into order items
     const orderItems = cart.items.map((item) => ({
       product: item.product._id,
       name: item.product.name,
@@ -51,7 +60,7 @@ export const createOrder = async (req, res) => {
       size: item.size,
     }));
 
-    // 9. Calculate total amount
+    // 10. Calculate total amount
     const totalAmount = orderItems.reduce(
       (total, item) => {
         return total + item.price * item.quantity;
@@ -59,12 +68,12 @@ export const createOrder = async (req, res) => {
       0
     );
 
-    // 10. Generate unique order number
+    // 11. Generate unique order number
     const orderNumber = `ORD-${Date.now()}-${Math.floor(
       Math.random() * 1000
     )}`;
 
-    // 11. Create order
+    // 12. Create order
     const order = await Order.create({
       orderNumber,
 
@@ -90,12 +99,19 @@ export const createOrder = async (req, res) => {
       orderStatus: "Placed",
     });
 
-    // 12. Clear cart after successful order creation
+    // 13. Reduce product stock
+    for (const item of cart.items) {
+      item.product.stock -= item.quantity;
+
+      await item.product.save();
+    }
+
+    // 14. Clear cart after successful order creation
     cart.items = [];
 
     await cart.save();
 
-    // 13. Return successful response
+    // 15. Return successful response
     res.status(201).json({
       message: "Order created successfully",
       order,
