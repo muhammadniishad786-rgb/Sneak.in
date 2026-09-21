@@ -1,7 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { FiHeart } from "react-icons/fi";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../redux/features/favoriteSlice";
 
 function ProductCard({ product }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const favorites = useSelector(
+    (state) => state.favorite.favorites
+  );
+
+  const isFavorite = favorites.some(
+    (favorite) => favorite.product?._id === product._id
+  );
+
+  const handleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFromFavorites(product._id));
+    } else {
+      dispatch(addToFavorites(product._id));
+    }
+  };
+
   return (
     <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       
@@ -12,7 +36,7 @@ function ProductCard({ product }) {
         <Link to={`/product/${product._id}`}>
           <img
             src={
-              product.image.startsWith("http")
+              product.image?.startsWith("http")
                 ? product.image
                 : `https://sneak-in-backend.onrender.com${product.image}`
             }
@@ -30,10 +54,23 @@ function ProductCard({ product }) {
 
         {/* Wishlist */}
         <button
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-lg text-slate-500 shadow-sm backdrop-blur transition hover:text-red-500"
-          aria-label="Add to wishlist"
+          type="button"
+          onClick={handleFavorite}
+          className={`absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur transition ${
+            isFavorite
+              ? "text-red-500"
+              : "text-slate-500 hover:text-red-500"
+          }`}
+          aria-label={
+            isFavorite
+              ? "Remove from wishlist"
+              : "Add to wishlist"
+          }
         >
-          ♡
+          <FiHeart
+            size={19}
+            className={isFavorite ? "fill-current" : ""}
+          />
         </button>
       </div>
 
@@ -79,7 +116,7 @@ function ProductCard({ product }) {
             type="button"
             className="rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-cyan-500"
             onClick={() => navigate(`/product/${product._id}`)}
-            >
+          >
             Add to Cart
           </button>
 
