@@ -18,6 +18,7 @@ import adminOrderRoute from "./src/routes/admin/adminOrderRoutes.js"
 import adminUserRoute from "./src/routes/admin/adminUserRoutes.js"
 import adminDashboardRoute from "./src/routes/admin/adminDashboardRoutes.js"
 import adminProfileRoute from "./src/routes/admin/adminProfileRoutes.js"
+import reviewRoute from "./src/routes/reviewRoutes.js"
 import path from "path";
 
 console.log(process.env.RAZORPAY_KEY_ID)
@@ -38,6 +39,7 @@ app.use("/api", addressRoute)
 app.use("/api", orderRoute)
 app.use("/api", paymentRoute)
 app.use("/api", favoriteRoute)
+app.use("/api", reviewRoute)
 // admin routes
 app.use("/api", adminProductRoute)
 app.use("/api", adminOrderRoute)
