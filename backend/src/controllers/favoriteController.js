@@ -31,6 +31,9 @@ export const addFavorite = async (req, res) => {
       product: productId,
     });
 
+    // Populate product
+    await favorite.populate("product");
+
     res.status(201).json({
       message: "Product added to favorites",
       favorite,
@@ -38,7 +41,7 @@ export const addFavorite = async (req, res) => {
   } catch (error) {
     console.error("Add favorite error:", error);
 
-    // Handle duplicate favorite
+    // Handle duplicate key error
     if (error.code === 11000) {
       return res.status(400).json({
         message: "Product already in favorites",
