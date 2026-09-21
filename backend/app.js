@@ -11,6 +11,7 @@ import cartRoute from "./src/routes/cartRoutes.js"
 import addressRoute from "./src/routes/addressRoutes.js"
 import orderRoute from "./src/routes/orderRoutes.js"
 import paymentRoute from "./src/routes/paymentRoutes.js"
+import favoriteRoute from "./src/routes/favoriteRoutes.js"
 
 import adminProductRoute from "./src/routes/admin/adminProductRoute.js"
 import adminOrderRoute from "./src/routes/admin/adminOrderRoutes.js"
@@ -36,6 +37,7 @@ app.use("/api", cartRoute)
 app.use("/api", addressRoute)
 app.use("/api", orderRoute)
 app.use("/api", paymentRoute)
+app.use("/api", favoriteRoute)
 // admin routes
 app.use("/api", adminProductRoute)
 app.use("/api", adminOrderRoute)
