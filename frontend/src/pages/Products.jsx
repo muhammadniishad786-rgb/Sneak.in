@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/features/productSlice";
 import ProductCard from "../component/ProductCart";
+import { fetchFavorites } from "../redux/features/favoriteSlice";
 
 function Products() {
   const dispatch = useDispatch();
@@ -41,6 +42,11 @@ function Products() {
 
     dispatch(fetchProducts(params));
   }, [search, category, sort, dispatch]);
+
+    // Fetch favorites
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen bg-slate-50">
