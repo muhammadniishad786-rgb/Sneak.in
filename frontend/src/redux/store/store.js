@@ -9,6 +9,7 @@ import adminOrdersReducer from "../features/adminOrderSlice"
 import adminUsersReducer from "../features/adminUserSlice"
 import adminProfileReducer from "../features/adminProfileSlice"
 import favoriteReducer from "../features/favoriteSlice"
+import reviewRedcuer from "../features/reviewSlice"
 
 export const store = configureStore({
     reducer:{
@@ -17,6 +18,7 @@ export const store = configureStore({
         favorite: favoriteReducer,
         address: addressReducer,
         order: orderReducer,
+        review: reviewRedcuer,
         admin: adminReducer,
         adminProducts: adminProductsReducer,
         adminOrders: adminOrdersReducer,
