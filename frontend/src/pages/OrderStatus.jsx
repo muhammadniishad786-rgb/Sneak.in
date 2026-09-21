@@ -11,9 +11,13 @@ import {
   FiArrowLeft,
   FiShoppingBag,
   FiClock,
+  FiXCircle,
 } from "react-icons/fi";
 
-import { fetchOrderById } from "../redux/features/orderSlice";
+import {
+  fetchOrderById,
+  cancelExistingOrder,
+} from "../redux/features/orderSlice";
 
 function OrderStatus() {
   const dispatch = useDispatch();
@@ -30,6 +34,21 @@ function OrderStatus() {
     }
   }, [dispatch, id]);
 
+  const handleCancelOrder = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this order?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await dispatch(cancelExistingOrder(id)).unwrap();
+    } catch (error) {
+      console.error("Cancel order error:", error);
+    }
+  };
   // Loading state
   if (loading) {
     return (
@@ -419,6 +438,20 @@ function OrderStatus() {
                 </div>
               </div>
             </section>
+
+            {/* Cancel Order */}
+            {order.orderStatus === "Placed" && (
+              <button
+                type="button"
+                onClick={handleCancelOrder}
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3.5 text-sm font-bold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <FiXCircle size={17} />
+
+                {loading ? "Cancelling..." : "Cancel Order"}
+              </button>
+            )}
 
             {/* Continue Shopping */}
             <button

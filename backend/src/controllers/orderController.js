@@ -1,6 +1,7 @@
 import Order from "../models/orderModel.js";
 import Cart from "../models/cartModel.js";
 import Address from "../models/addressModel.js";
+import Product from "../models/productModel.js"
 
 export const createOrder = async (req, res) => {
   try {
@@ -186,6 +187,67 @@ export const getOrders = async (req, res) => {
 
     res.status(500).json({
       message: "Failed to fetch orders",
+      error: error.message,
+    });
+  }
+};
+
+
+// to cancel order
+export const cancelOrder = async (req, res) => {
+  try {
+    // 1. Get logged-in user's ID
+    const userId = req.user.userId;
+
+    // 2. Get order ID from URL
+    const { id } = req.params;
+
+    // 3. Find the order belonging to this user
+    const order = await Order.findOne({
+      _id: id,
+      user: userId,
+    });
+
+    // 4. Check whether order exists
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    // 5. Check whether order can be cancelled
+    if (order.orderStatus !== "Placed") {
+      return res.status(400).json({
+        message: "This order cannot be cancelled",
+      });
+    }
+
+    // 6. Restore product stock
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+
+      if (product) {
+        product.stock += item.quantity;
+
+        await product.save();
+      }
+    }
+
+    // 7. Update order status
+    order.orderStatus = "Cancelled";
+
+    await order.save();
+
+    // 8. Send response
+    res.status(200).json({
+      message: "Order cancelled successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Cancel order error:", error);
+
+    res.status(500).json({
+      message: "Failed to cancel order",
       error: error.message,
     });
   }

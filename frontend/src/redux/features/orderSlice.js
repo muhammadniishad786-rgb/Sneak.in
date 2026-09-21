@@ -4,6 +4,7 @@ import {
   createOrder,
   getOrder,
   getOrderById,
+  cancelOrder,
 } from "../../services/orderApi";
 
 // ========================================
@@ -19,11 +20,10 @@ export const createNewOrder = createAsyncThunk(
       return data.order;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to create order"
+        error.response?.data?.message || "Failed to create order",
       );
     }
-  }
+  },
 );
 
 // ========================================
@@ -39,11 +39,10 @@ export const fetchOrderById = createAsyncThunk(
       return data.order;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to fetch order"
+        error.response?.data?.message || "Failed to fetch order",
       );
     }
-  }
+  },
 );
 
 // ========================================
@@ -59,11 +58,29 @@ export const fetchAllOrders = createAsyncThunk(
       return data.orders;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to fetch orders"
+        error.response?.data?.message || "Failed to fetch orders",
       );
     }
-  }
+  },
+);
+
+// ========================================
+// Cancel Order
+// ========================================
+export const cancelExistingOrder = createAsyncThunk(
+  "order/cancelExistingOrder",
+
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await cancelOrder(id);
+
+      return data.order;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to cancel order",
+      );
+    }
+  },
 );
 
 // ========================================
@@ -142,6 +159,35 @@ const orderSlice = createSlice({
       })
 
       .addCase(fetchAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ========================================
+      // Cancel Order
+      // ========================================
+
+      .addCase(cancelExistingOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(cancelExistingOrder.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.order = action.payload;
+
+        // Update the order inside orders array
+        const index = state.orders.findIndex(
+          (order) => order._id === action.payload._id,
+        );
+
+        if (index !== -1) {
+          state.orders[index] = action.payload;
+        }
+      })
+
+      .addCase(cancelExistingOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
