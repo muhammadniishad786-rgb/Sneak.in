@@ -11,7 +11,7 @@ function FeaturedSneakers() {
   const dispatch = useDispatch();
 
   const { products, loading } = useSelector(
-    (state) => state.product
+    (state) => state.products
   );
 
   const favorites = useSelector(

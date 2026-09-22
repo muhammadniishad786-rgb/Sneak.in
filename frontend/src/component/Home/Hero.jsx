@@ -1,171 +1,103 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Volume2, VolumeX } from "lucide-react";
+import { useState } from "react";
+import HeroImage from "../../../public/video/background.mp4"
 
 function Hero() {
-  const { products, loading } = useSelector(
-    (state) => state.product
-  );
-
-  const featuredProduct = products?.[0];
-
-  const getImageUrl = (image) => {
-    if (!image) return "";
-
-    if (image.startsWith("http")) {
-      return image;
-    }
-
-    return `${import.meta.env.VITE_API_URL.replace("/api", "")}${image}`;
-  };
+  const [muted, setMuted] = useState(true);
 
   return (
-    <section className="bg-white">
+    <section className="relative h-[calc(100svh-72px)] min-h-[600px] w-full overflow-hidden bg-black">
+      
+      {/* Background Video */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src={HeroImage}
+        autoPlay
+        muted={muted}
+        loop
+        playsInline
+        preload="metadata"
+      />
 
-      {/* ==================================================
-          HERO CONTAINER
-      ================================================== */}
-      <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12">
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/30" />
 
-        <div className="relative min-h-[calc(100vh-80px)] overflow-hidden">
+      {/* Bottom Gradient */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-          {/* ==================================================
-              TEXT CONTENT
-          ================================================== */}
-          <div className="relative z-20 flex min-h-[calc(100vh-80px)] flex-col justify-center py-16 lg:w-[55%] lg:py-24">
-
+      {/* Content */}
+      <div className="relative z-10 flex h-full items-end">
+        <div className="mx-auto w-full max-w-[1600px] px-5 pb-12 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
+          
+          <div className="max-w-4xl text-white">
+            
             {/* Small Label */}
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">
-              Sneak.in — New Season
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
+              Sneak.in — New Collection
             </p>
 
             {/* Main Heading */}
-            <h1 className="max-w-4xl text-[clamp(4rem,9vw,9rem)] font-black uppercase leading-[0.82] tracking-[-0.06em] text-black">
+            <h1 className="max-w-4xl text-[clamp(3.8rem,9vw,9rem)] font-black uppercase leading-[0.82] tracking-[-0.06em]">
               Move
               <br />
               Different.
             </h1>
 
             {/* Description */}
-            <p className="mt-8 max-w-md text-base leading-7 text-zinc-500 sm:text-lg">
+            <p className="mt-7 max-w-md text-sm leading-6 text-white/75 sm:text-base">
               Step into sneakers designed for everyday movement,
               effortless style, and your next adventure.
             </p>
 
             {/* Buttons */}
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-
+            <div className="mt-8 flex flex-wrap gap-3">
+              
               <Link
                 to="/products"
-                className="group inline-flex items-center gap-3 rounded-full bg-black px-7 py-4 text-sm font-semibold text-white transition duration-300 hover:bg-zinc-800"
+                className="group inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-semibold text-black transition duration-300 hover:bg-zinc-200"
               >
                 Shop Sneakers
 
                 <ArrowUpRight
                   size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
               </Link>
-
-              {featuredProduct && (
-                <Link
-                  to={`/product/${featuredProduct._id}`}
-                  className="rounded-full border border-zinc-300 px-7 py-4 text-sm font-semibold text-black transition duration-300 hover:border-black"
-                >
-                  View Featured
-                </Link>
-              )}
-
-            </div>
-
-          </div>
-
-
-          {/* ==================================================
-              PRODUCT VISUAL
-          ================================================== */}
-          <div className="absolute inset-y-0 right-[-20%] flex w-[80%] items-center justify-center lg:right-[-5%] lg:w-[65%]">
-
-            {/* Very subtle background circle */}
-            <div className="absolute h-[65vw] w-[65vw] max-h-[750px] max-w-[750px] rounded-full bg-zinc-100" />
-
-            {/* Background Typography */}
-            <span className="pointer-events-none absolute select-none text-[18vw] font-black uppercase leading-none tracking-[-0.08em] text-black/[0.025]">
-              SNEAK
-            </span>
-
-            {/* Loading */}
-            {loading ? (
-              <div className="relative z-10 h-[300px] w-[300px] animate-pulse rounded-full bg-zinc-200 sm:h-[450px] sm:w-[450px]" />
-            ) : featuredProduct?.image ? (
 
               <Link
-                to={`/product/${featuredProduct._id}`}
-                className="relative z-10 block w-full"
+                to="/products"
+                className="rounded-full border border-white/40 bg-white/10 px-7 py-4 text-sm font-semibold text-white backdrop-blur-sm transition duration-300 hover:bg-white hover:text-black"
               >
-                <img
-                  src={getImageUrl(featuredProduct.image)}
-                  alt={featuredProduct.name}
-                  className="mx-auto w-[85%] max-w-[750px] object-contain transition duration-700 ease-out hover:scale-105"
-                />
+                Explore Collection
               </Link>
 
-            ) : (
-
-              <div className="relative z-10 flex h-[300px] w-[300px] items-center justify-center rounded-full bg-zinc-100 sm:h-[450px] sm:w-[450px]">
-                <span className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                  Sneak.in
-                </span>
-              </div>
-
-            )}
-
-          </div>
-
-
-          {/* ==================================================
-              FEATURED PRODUCT INFO
-          ================================================== */}
-          {featuredProduct && !loading && (
-            <div className="absolute bottom-8 right-5 z-30 hidden max-w-[220px] text-right sm:block lg:bottom-12 lg:right-12">
-
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-zinc-400">
-                Featured
-              </p>
-
-              <p className="mt-2 text-sm font-bold text-black">
-                {featuredProduct.name}
-              </p>
-
-              <p className="mt-1 text-sm text-zinc-500">
-                ₹{Number(featuredProduct.price).toLocaleString("en-IN")}
-              </p>
-
             </div>
-          )}
-
+          </div>
         </div>
-
       </div>
 
+      {/* Sound Button */}
+      <button
+        type="button"
+        onClick={() => setMuted(!muted)}
+        className="absolute bottom-6 right-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition hover:bg-white hover:text-black sm:bottom-8 sm:right-8"
+        aria-label={muted ? "Turn sound on" : "Turn sound off"}
+      >
+        {muted ? (
+          <VolumeX size={18} />
+        ) : (
+          <Volume2 size={18} />
+        )}
+      </button>
 
-      {/* ==================================================
-          BOTTOM INTRO STRIP
-      ================================================== */}
-      <div className="border-y border-zinc-200 bg-white">
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-7 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/60 md:flex">
+        <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">
+          Scroll
+        </span>
 
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-4 px-5 py-6 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12">
-
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400">
-            Built for everyday movement
-          </p>
-
-          <p className="max-w-xl text-sm leading-6 text-zinc-500">
-            Find your next pair from the latest Sneak.in collection.
-          </p>
-
-        </div>
-
+        <div className="h-10 w-px bg-white/40" />
       </div>
 
     </section>
