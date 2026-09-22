@@ -1,13 +1,21 @@
 import api from "./api";
 
-export const registerUser = (userData) => {
-  return api.post("/auth/register", userData);
+export const registerUser = async (userData) => {
+  const response = await api.post("/auth/register", userData);
+  return response.data;
 };
 
-export const loginUser = (userData) => {
-  return api.post("/auth/login", userData);
+export const loginUser = async (userData) => {
+  const response = await api.post("/auth/login", userData);
+  return response.data;
 };
 
-export const getProfile = (token) => {
-  return api.get("/profile", { headers: { Authorization: `Bearer ${token}` } });
+export const getProfile = async (token) => {
+  const response = await api.get("/profile", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
 };

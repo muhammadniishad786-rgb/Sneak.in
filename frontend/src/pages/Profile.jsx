@@ -21,7 +21,7 @@ function Profile() {
 
         const response = await getProfile(token);
 
-        setUser(response.data.user);
+        setUser(response.user);
       } catch (error) {
         console.log(error);
 
