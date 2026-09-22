@@ -1,37 +1,31 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { loginUser } from "../services/authApi";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
+  // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error when user starts typing
-    if (error) {
-      setError("");
-    }
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
+  // Handle login
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError("");
 
     // Email validation
@@ -51,38 +45,22 @@ function Login() {
     try {
       setLoading(true);
 
-      // Call login API
       const response = await loginUser(formData);
 
-      console.log("Login response:", response.data);
-
-      // Get token and role from backend response
-      const { token, role } = response.data;
-
-      // Make sure token exists
-      if (!token) {
-        setError("Login failed. Token not received.");
-        return;
-      }
-
-      // Store authentication information
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
-
-      console.log("Logged in role:", role);
+      // Save authentication data
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("role", response.role);
 
       // Redirect based on role
-      if (role === "admin") {
+      if (response.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/profile");
       }
     } catch (error) {
-      console.error("Login error:", error);
-
       setError(
         error.response?.data?.message ||
-          "Invalid email or password."
+          "Login failed. Please check your email and password."
       );
     } finally {
       setLoading(false);
@@ -90,156 +68,137 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-white px-5 py-10 sm:px-6">
+      <div className="mx-auto w-full max-w-md">
 
-        {/* Brand */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-950">
-              Sneak<span className="text-cyan-500">.in</span>
-            </h1>
+        {/* Logo */}
+        <div className="mb-10 flex justify-center">
+          <Link to="/" className="inline-flex">
+            <img
+              src="/sneakIn-favicon.png"
+              alt="Sneak.in"
+              className="h-15 w-25 object-contain"
+            />
           </Link>
+        </div>
 
-          <p className="text-gray-500 mt-2 text-sm">
-            Step into your style.
+        {/* Heading */}
+        <div className="mb-8 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-[#100d2f]">
+            Sign in
+          </h1>
+
+          <p className="mt-2 text-sm text-gray-500">
+            Welcome back to Sneak.in
           </p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-7 sm:p-8">
-
-          {/* Heading */}
-          <div className="mb-7">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Welcome Back
-            </h2>
-
-            <p className="text-sm text-gray-500 mt-1">
-              Sign in to your Sneak.in account
-            </p>
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
           </div>
+        )}
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-              <p className="text-sm text-red-600">
-                {error}
-              </p>
-            </div>
-          )}
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Email Address
-              </label>
-
-              <div className="relative">
-                <Mail
-                  size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                />
-
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  autoComplete="email"
-                  className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm text-gray-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-              </div>
-
-              <div className="relative">
-                <Lock
-                  size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                />
-
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  minLength={8}
-                  autoComplete="current-password"
-                  className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-11 text-sm text-gray-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
-                />
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition"
-                  aria-label={
-                    showPassword
-                      ? "Hide password"
-                      : "Show password"
-                  }
-                >
-                  {showPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Login Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-gray-950 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-60"
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-medium text-gray-800"
             >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
+              Email address
+            </label>
 
-          {/* Register */}
-          <div className="mt-7 border-t border-gray-100 pt-6 text-center">
-            <p className="text-sm text-gray-500">
-              Don't have an account?{" "}
-
-              <Link
-                to="/register"
-                className="font-semibold text-cyan-600 hover:text-cyan-700"
-              >
-                Create an account
-              </Link>
-            </p>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              autoComplete="email"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#100d2f] focus:ring-1 focus:ring-[#100d2f]"
+            />
           </div>
+
+          {/* Password */}
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium text-gray-800"
+            >
+              Password
+            </label>
+
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 pr-12 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#100d2f] focus:ring-1 focus:ring-[#100d2f]"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-[#100d2f]"
+                aria-label={
+                  showPassword ? "Hide password" : "Show password"
+                }
+              >
+                {showPassword ? (
+                  <EyeOff size={19} />
+                ) : (
+                  <Eye size={19} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Forgot Password */}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              className="text-sm font-medium text-gray-600 transition hover:text-[#100d2f]"
+            >
+              Forgot password?
+            </button>
+          </div>
+
+          {/* Login Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-full bg-[#100d2f] py-3.5 text-sm font-semibold text-white transition duration-200 hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {loading ? "Signing in..." : "SIGN IN"}
+          </button>
+        </form>
+
+        {/* Register */}
+        <div className="mt-8 text-center text-sm text-gray-600">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="font-semibold text-[#100d2f] underline underline-offset-4 transition hover:text-cyan-500"
+          >
+            Join us
+          </Link>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-400 mt-6">
-          © {new Date().getFullYear()} Sneak.in. All rights reserved.
-        </p>
+        <div className="mt-12 text-center">
+          <p className="text-xs text-gray-400">
+            © {new Date().getFullYear()} Sneak.in. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );
