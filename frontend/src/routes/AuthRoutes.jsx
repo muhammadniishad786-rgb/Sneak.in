@@ -31,6 +31,7 @@ import AdminOrderDetails from "../pages/admin/OrderDetails";
 import AdminUsers from "../pages/admin/AdminUser";
 import AdminUserDetails from "../pages/admin/AdminUserDetails";
 import AdminProfile from "../pages/admin/AdminProfile";
+import Favorites from "../pages/Favorite";
 
 function AuthRoutes() {
   return (
@@ -55,6 +56,8 @@ function AuthRoutes() {
             <Route path="/product/:id" element={<ProductDetails />} />
 
             <Route path="/cart" element={<CartPage />} />
+
+            <Route path="/favorites" element={<Favorites />} />
 
             <Route path="/address" element={<AddressPage />} />
 
