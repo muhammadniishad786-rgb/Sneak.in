@@ -6,217 +6,248 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gray-950 text-gray-300">
+    <footer className="bg-white text-black">
 
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-6 py-14">
+      {/* ==================================================
+          TOP FOOTER
+      ================================================== */}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="border-t border-zinc-200">
 
-          {/* Brand */}
-          <div>
+        <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
 
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              Sneak<span className="text-blue-400">.in</span>
-            </h2>
+          <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
 
-            <p className="mt-4 text-sm leading-6 text-gray-400 max-w-xs">
-              Step into confidence with footwear designed for your everyday
-              journey. Discover your style and make every step count.
-            </p>
 
-            {/* Social Icons */}
-            <div className="flex gap-3 mt-6">
+            {/* ==================================================
+                BRAND
+            ================================================== */}
 
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/muhammad.nishad_/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
-              >
-                <FaInstagram size={18} />
-              </a>
+            <div className="lg:col-span-5">
 
-              {/* Facebook */}
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
-              >
-                <FaFacebookF size={17} />
-              </a>
+              <h2 className="text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl lg:text-7xl">
+                SNEAK<span className="text-zinc-400">.IN</span>
+              </h2>
 
-              {/* X */}
-              <a
-                href="#"
-                aria-label="X"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-white hover:text-gray-950 transition"
-              >
-                <FaXTwitter size={17} />
-              </a>
+              <p className="mt-7 max-w-md text-sm leading-6 text-zinc-500 sm:text-base">
+                Footwear designed for everyday movement,
+                effortless style, and every step ahead.
+              </p>
+
+
+              {/* Social */}
+
+              <div className="mt-8 flex gap-3">
+
+                {/* Instagram */}
+
+                <a
+                  href="https://www.instagram.com/muhammad.nishad_/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white transition duration-300 hover:bg-zinc-800"
+                >
+                  <FaInstagram size={17} />
+                </a>
+
+
+                {/* Facebook */}
+
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-300 bg-white text-black transition duration-300 hover:bg-black hover:text-white"
+                >
+                  <FaFacebookF size={16} />
+                </a>
+
+
+                {/* X */}
+
+                <a
+                  href="#"
+                  aria-label="X"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-300 bg-white text-black transition duration-300 hover:bg-black hover:text-white"
+                >
+                  <FaXTwitter size={16} />
+                </a>
+
+              </div>
 
             </div>
 
-          </div>
+
+            {/* ==================================================
+                SHOP
+            ================================================== */}
+
+            <div className="lg:col-span-2">
+
+              <h3 className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
+                Shop
+              </h3>
+
+              <ul className="space-y-4 text-sm">
+
+                <li>
+                  <a
+                    href="/products"
+                    className="transition hover:text-zinc-500"
+                  >
+                    All Footwear
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="/products?category=sneakers"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Sneakers
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="/products?category=running"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Running Shoes
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="/products?category=casual"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Casual Shoes
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
 
 
-          {/* Shop */}
-          <div>
+            {/* ==================================================
+                CUSTOMER CARE
+            ================================================== */}
 
-            <h3 className="text-white font-semibold text-lg mb-5">
-              Shop
-            </h3>
+            <div className="lg:col-span-2">
 
-            <ul className="space-y-3 text-sm">
+              <h3 className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
+                Support
+              </h3>
 
-              <li>
-                <a
-                  href="/products"
-                  className="hover:text-white transition"
-                >
-                  All Footwear
-                </a>
-              </li>
+              <ul className="space-y-4 text-sm">
 
-              <li>
-                <a
-                  href="/products?category=sneakers"
-                  className="hover:text-white transition"
-                >
-                  Sneakers
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/profile"
+                    className="transition hover:text-zinc-500"
+                  >
+                    My Account
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/products?category=running"
-                  className="hover:text-white transition"
-                >
-                  Running Shoes
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/orders"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Track Orders
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/products?category=casual"
-                  className="hover:text-white transition"
-                >
-                  Casual Shoes
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="#"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Shipping & Delivery
+                  </a>
+                </li>
 
-            </ul>
+                <li>
+                  <a
+                    href="#"
+                    className="transition hover:text-zinc-500"
+                  >
+                    Returns & Refunds
+                  </a>
+                </li>
 
-          </div>
+              </ul>
 
-
-          {/* Customer Care */}
-          <div>
-
-            <h3 className="text-white font-semibold text-lg mb-5">
-              Customer Care
-            </h3>
-
-            <ul className="space-y-3 text-sm">
-
-              <li>
-                <a
-                  href="/profile"
-                  className="hover:text-white transition"
-                >
-                  My Account
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="/orders"
-                  className="hover:text-white transition"
-                >
-                  Track Orders
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition"
-                >
-                  Shipping & Delivery
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition"
-                >
-                  Returns & Refunds
-                </a>
-              </li>
-
-            </ul>
-
-          </div>
+            </div>
 
 
-          {/* Contact */}
-          <div>
+            {/* ==================================================
+                CONTACT
+            ================================================== */}
 
-            <h3 className="text-white font-semibold text-lg mb-5">
-              Get In Touch
-            </h3>
+            <div className="lg:col-span-3">
 
-            <div className="space-y-4 text-sm">
+              <h3 className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
+                Get In Touch
+              </h3>
 
-              {/* Email */}
-              <div>
-
-                <p className="text-gray-500 text-xs uppercase tracking-wider">
-                  Email
-                </p>
-
-                <a
-                  href="mailto:support@sneak.in"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  support@sneak.in
-                </a>
-
-              </div>
+              <div className="space-y-6 text-sm">
 
 
-              {/* Phone */}
-              <div>
+                {/* Email */}
 
-                <p className="text-gray-500 text-xs uppercase tracking-wider">
-                  Phone
-                </p>
+                <div>
 
-                <a
-                  href="tel:+919778580349"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  +91 9778580349
-                </a>
+                  <p className="mb-1 text-xs uppercase tracking-[0.15em] text-zinc-400">
+                    Email
+                  </p>
 
-              </div>
+                  <a
+                    href="mailto:support@sneak.in"
+                    className="transition hover:text-zinc-500"
+                  >
+                    support@sneak.in
+                  </a>
+
+                </div>
 
 
-              {/* Support */}
-              <div>
+                {/* Phone */}
 
-                <p className="text-gray-500 text-xs uppercase tracking-wider">
-                  Support
-                </p>
+                <div>
 
-                <p className="text-gray-400">
-                  Monday – Saturday
-                  <br />
-                  9:00 AM – 6:00 PM
-                </p>
+                  <p className="mb-1 text-xs uppercase tracking-[0.15em] text-zinc-400">
+                    Phone
+                  </p>
+
+                  <a
+                    href="tel:+919778580349"
+                    className="transition hover:text-zinc-500"
+                  >
+                    +91 9778580349
+                  </a>
+
+                </div>
+
+
+                {/* Support */}
+
+                <div>
+
+                  <p className="mb-1 text-xs uppercase tracking-[0.15em] text-zinc-400">
+                    Support Hours
+                  </p>
+
+                  <p className="leading-6 text-zinc-500">
+                    Monday – Saturday
+                    <br />
+                    9:00 AM – 6:00 PM
+                  </p>
+
+                </div>
 
               </div>
 
@@ -229,27 +260,52 @@ function Footer() {
       </div>
 
 
-      {/* Bottom Footer */}
-      <div className="border-t border-gray-800">
+      {/* ==================================================
+          LARGE BRAND STRIP
+      ================================================== */}
 
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="overflow-hidden border-y border-zinc-200">
 
-          <p className="text-sm text-gray-500">
+        <div className="mx-auto max-w-[1600px] px-5 py-8 sm:px-8 lg:px-12">
+
+          <p className="select-none whitespace-nowrap text-[clamp(4rem,12vw,11rem)] font-black uppercase leading-none tracking-[-0.08em] text-zinc-100">
+            SNEAK.IN
+          </p>
+
+        </div>
+
+      </div>
+
+
+      {/* ==================================================
+          BOTTOM FOOTER
+      ================================================== */}
+
+      <div className="mx-auto max-w-[1600px] px-5 py-6 sm:px-8 lg:px-12">
+
+        <div className="flex flex-col gap-5 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+
+          {/* Copyright */}
+
+          <p>
             © {new Date().getFullYear()} Sneak.in. All rights reserved.
           </p>
 
-          <div className="flex gap-6 text-sm text-gray-500">
+
+          {/* Legal */}
+
+          <div className="flex flex-wrap gap-6">
 
             <a
               href="#"
-              className="hover:text-white transition"
+              className="transition hover:text-black"
             >
               Privacy Policy
             </a>
 
             <a
               href="#"
-              className="hover:text-white transition"
+              className="transition hover:text-black"
             >
               Terms & Conditions
             </a>

@@ -110,14 +110,14 @@ function Navbar() {
             </Link>
 
 
-            <Link
+            {/* <Link
               to="/products?category=running"
               className="group relative py-3 text-[13px] font-semibold text-zinc-900"
             >
               Running
 
               <span className="absolute bottom-1 left-0 h-[2px] w-0 rounded-full bg-black transition-all duration-300 group-hover:w-full" />
-            </Link>
+            </Link> */}
 
 
             <Link
@@ -125,6 +125,15 @@ function Navbar() {
               className="group relative py-3 text-[13px] font-semibold text-zinc-900"
             >
               Orders
+
+              <span className="absolute bottom-1 left-0 h-[2px] w-0 rounded-full bg-black transition-all duration-300 group-hover:w-full" />
+            </Link>
+
+            <Link
+              to="/address"
+              className="group relative py-3 text-[13px] font-semibold text-zinc-900"
+            >
+              Addresses
 
               <span className="absolute bottom-1 left-0 h-[2px] w-0 rounded-full bg-black transition-all duration-300 group-hover:w-full" />
             </Link>
