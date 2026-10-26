@@ -46,14 +46,18 @@ function AuthRoutes() {
 
           <Route path="/login" element={<Login />} />
 
+          <Route path="/products" element={<Products />} />
+
+          <Route path="/product/:id" element={<ProductDetails />} />
+
           {/* ================= PROTECTED USER ROUTES ================= */}
 
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
 
-            <Route path="/products" element={<Products />} />
+            
 
-            <Route path="/product/:id" element={<ProductDetails />} />
+            
 
             <Route path="/cart" element={<CartPage />} />
 
